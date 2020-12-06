@@ -24,7 +24,13 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'viewLogin'])->name('auth.login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.login.action');
 });
-Route::get('/home', [HomeController::class,'index'])->name('view.dashboard');
-// Route::middleware(['auth'])->group(function(){
-//     Route::get('/home', [HomeController::class,'index'])->name('view.dashboard');
-// });
+
+Route::middleware(['auth'])->group(function(){
+    //auth
+    Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+    //dashboard
+    Route::get('/home', [HomeController::class,'index'])->name('view.home');
+
+    //master_data
+});

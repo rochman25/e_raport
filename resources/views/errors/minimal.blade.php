@@ -45,7 +45,7 @@
                         </div>
                         <div class="row mt-5">
                             <div class="col-12 text-center mt-xl-2">
-                                <a class="text-white font-weight-medium" href="{{ route('view.dashboard') }}">Back to
+                                <a class="text-white font-weight-medium" href="{{ route('view.home') }}">Back to
                                     home</a>
                             </div>
                         </div>
