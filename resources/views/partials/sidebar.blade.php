@@ -28,13 +28,14 @@
             </a>
             <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Tahun Ajaran</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.tahun') }}">Tahun Ajaran</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Mata Pelajaran</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.mata_pelajaran') }}">Mata
+                            Pelajaran</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Guru</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Siswa</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Kelas</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.guru') }}">Guru</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.siswa') }}">Siswa</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.kelas') }}">Kelas</a></li>
                 </ul>
             </div>
         </li>
@@ -49,7 +50,7 @@
             <div class="collapse" id="general-pages">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{ route('view.role') }}"> Role </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Pengguna </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.user') }}"> Pengguna </a></li>
                 </ul>
             </div>
         </li>
