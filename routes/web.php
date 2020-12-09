@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,5 +33,11 @@ Route::middleware(['auth'])->group(function(){
     //dashboard
     Route::get('/home', [HomeController::class,'index'])->name('view.home');
 
+    //system
+    //roles
+    Route::get('/roles',[RoleController::class,'index'])->name('view.role');
+    Route::post('/roles',[RoleController::class,'store'])->name('insert.role');
+    Route::post('/roles/delete',[RoleController::class,'destroy'])->name('delete.role');
     //master_data
+
 });

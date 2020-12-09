@@ -48,7 +48,7 @@
             </a>
             <div class="collapse" id="general-pages">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Role </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.role') }}"> Role </a></li>
                     <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Pengguna </a></li>
                 </ul>
             </div>
