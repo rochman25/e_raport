@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TahunAjarController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WaliKelasController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -95,4 +96,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('siswa/{id}/edit', [SiswaController::class, 'edit'])->name('view.siswa.edit');
     Route::post('siswa/{id}/update', [SiswaController::class, 'update'])->name('update.siswa');
     Route::post('siswa/{id}/delete', [SiswaController::class, 'destroy'])->name('delete.siswa');
+
+    //walikelas
+    Route::get('walikelas', [WaliKelasController::class, 'index'])->name('view.walikelas');
+    Route::get('walikelas/create', [WaliKelasController::class, 'create'])->name('view.walikelas.insert');
+    Route::post('walikelas/store', [WaliKelasController::class, 'store'])->name('insert.walikelas');
+    Route::get('walikelas/{id}/edit', [WaliKelasController::class, 'edit'])->name('view.walikelas.edit');
+    Route::post('walikelas/{id}/update', [WaliKelasController::class, 'update'])->name('update.walikelas');
+    Route::post('walikelas/{id}/delete', [WaliKelasController::class, 'destroy'])->name('delete.walikelas');
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WaliKelas;
 use Illuminate\Http\Request;
 
 class WaliKelasController extends Controller
@@ -13,7 +14,8 @@ class WaliKelasController extends Controller
      */
     public function index()
     {
-        //
+        $walikelas = WaliKelas::paginate(10);
+        return view('pages.walikelas.index',compact('walikelas'));
     }
 
     /**
