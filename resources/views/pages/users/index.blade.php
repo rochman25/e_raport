@@ -60,9 +60,7 @@
                                     <td class="text-info"> {{ $item->updated_at->isoFormat('dddd, D MMMM Y') }}</td>
                                     <td>
                                         @if ($item->username != Auth::user()->username)
-                                            <button class="btn btn-success btn-sm btnUbah" data-id="{{ $item->id }}"
-                                                data-name="{{ $item->name }}" data-toggle="modal"
-                                                data-target="#exampleModal-4">ubah</button>
+                                            <a href="{{ route('view.user.edit',$item->id) }}" class="btn btn-success btn-sm">ubah</a>
                                             <button data-id="{{ $item->id }}"
                                                 class="btn btn-danger btn-sm btnHapus">hapus</button>
                                         @endif

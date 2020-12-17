@@ -85,7 +85,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::with('role')->where('id',$id)->first();
+        $roles = Role::all();
+        // dd($user->role);
+        return view('pages.users.edit',compact('user','roles'));
     }
 
     /**
@@ -97,7 +100,27 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'username' => 'required|unique:users,username,'.$id,
+            'email'    => 'required|unique:users,email,'.$id,
+            'role_id'  => 'required',
+        ]);
+
+        try{
+            DB::beginTransaction();
+            User::findOrFail($id);
+            User::where('id',$id)->update($request->only(['username','email','name']));
+            RoleUser::where('user_id',$id)->update($request->only('role_id'));
+            DB::commit();
+            return redirect()->route('view.user')
+            ->with('success', 'Data Berhasil disimpan');
+        }catch(Exception $e){
+            DB::rollBack();
+            // dd($e);
+            return redirect()->route('view.user.edit',$id)
+            ->with('error', 'Data Gagal disimpan');
+        }
+
     }
 
     /**
