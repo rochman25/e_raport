@@ -56,21 +56,23 @@
                                 <tr>
                                     <td>{{ ++$index }}</td>
                                     <td>{{ $item->tahun }}</td>
-                                    <td><span class="badge badge-@if($item->active)primary @else danger @endif"> @if ($item->active) {{ 'aktif' }}
+                                    <td><span @if ($item->active) class="badge badge-success"
+                                            @else class="badge badge-danger" @endif > @if ($item->active) {{ 'aktif' }}
                                             @else {{ 'tidak aktif' }}
                                             @endif
                                         </span></td>
                                     <td class="text-info"> {{ $item->updated_at->isoFormat('dddd, D MMMM Y') }}</td>
                                     <td>
-                                        <button class="btn btn-success btn-sm btnUbah" data-id="{{ $item->id }}"
-                                            data-name="{{ $item->name }}" data-toggle="modal"
-                                            data-target="#exampleModal-4">ubah</button>
+                                        <a href="{{ route('view.tahun.edit', $item->id) }}"
+                                            class="btn btn-success btn-sm">ubah</a>
                                         @if ($item->active)
-                                            <button class="btn btn-warning btn-sm">
+                                            <button class="btn btn-warning btn-sm btnStatus" data-id="{{ $item->id }}"
+                                                data-status="0">
                                                 Non Aktifkan
                                             </button>
                                         @else
-                                            <button class="btn btn-info btn-sm">
+                                            <button class="btn btn-primary btn-sm btnStatus" data-id="{{ $item->id }}"
+                                                data-status="1">
                                                 Aktifkan
                                             </button>
                                         @endif
@@ -96,6 +98,57 @@
 @endsection
 @push('scripts')
     <script type="text/javascript">
+        $(document).on('click', '.btnStatus', function name(params) {
+            const url = "{{ route('status.tahun') }}";
+            const idBtn = $(this).data('id');
+            const status = $(this).data('status')
+            swal({
+                title: "Konfirmasi",
+                text: "Apakah anda yakin ingin mengubah data ini ?",
+                icon: "warning",
+                buttons: {
+                    confirm: {
+                        text: "Ya",
+                        value: true,
+                        visible: true,
+                        className: "",
+                        closeModal: false
+                    },
+                    cancel: {
+                        text: "Tidak",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    }
+
+                }
+            }).then(isConfirm => {
+                if (isConfirm) {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            id: idBtn,
+                            active: status
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                swal("Sukses!", "Data berhasil diubah", "success");
+                                setTimeout(location.reload.bind(location), 1000);
+                            } else {
+                                console.log(response)
+                                swal("Error", "Maaf terjadi kesalahan", "error");
+                            }
+                        }
+                    });
+                } else {
+                    swal.close();
+                }
+            });
+        })
+
         $(document).on('click', '.btnHapus', function name(params) {
             const url = "{{ route('delete.tahun') }}";
             const idBtn = $(this).data('id');

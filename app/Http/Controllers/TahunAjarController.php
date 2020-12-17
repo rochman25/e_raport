@@ -50,7 +50,7 @@ class TahunAjarController extends Controller
             TahunAjaran::create($request->all());
             DB::commit();
             return redirect()->route('view.tahun')
-            ->with('success', 'Data Berhasil disimpan');
+                ->with('success', 'Data Berhasil disimpan');
         } catch (Exception $e) {
             DB::rollBack();
             // dd($e);
@@ -78,7 +78,8 @@ class TahunAjarController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tahun = TahunAjaran::find($id);
+        return view('pages.tahun.edit', compact('tahun'));
     }
 
     /**
@@ -90,7 +91,24 @@ class TahunAjarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'tahun'     => 'required|unique:tahun_ajaran,tahun,' . $id,
+            'semester'  => 'required',
+            'active'    => 'required'
+        ]);
+
+        try {
+            DB::beginTransaction();
+            TahunAjaran::where('id',$id)->update($request->only(['tahun','semester','active','nip_ks','nama_ks']));
+            DB::commit();
+            return redirect()->route('view.tahun')
+            ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            // dd($e);
+            return redirect()->route('view.tahun.edit',$id)
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
@@ -99,8 +117,40 @@ class TahunAjarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        try {
+            DB::beginTransaction();
+
+            TahunAjaran::where('id',$id)->delete();
+            DB::commit();
+            
+            $success = true;         
+            return response()->json(['success'=>$success]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['success' => false,'errors' => $e]);
+        }
+    }
+
+    public function status(Request $request)
+    {
+        $id = $request->id;
+        $active = $request->active;
+        try {
+            DB::beginTransaction();
+
+            TahunAjaran::where('id',$id)->update($request->only('active'));
+            DB::commit();
+            
+            $success = true;         
+            return response()->json(['success'=>$success]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['success' => false,'errors' => $e]);
+        }
     }
 }

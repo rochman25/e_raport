@@ -63,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('tahun/{id}/edit', [TahunAjarController::class, 'edit'])->name('view.tahun.edit');
     Route::post('tahun/{id}/update', [TahunAjarController::class, 'update'])->name('update.tahun');
     Route::post('tahun/delete', [TahunAjarController::class, 'destroy'])->name('delete.tahun');
+    Route::post('tahun/status', [TahunAjarController::class, 'status'])->name('status.tahun');
 
     //kelas
     Route::get('kelas', [KelasController::class, 'index'])->name('view.kelas');
