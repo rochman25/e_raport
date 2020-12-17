@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\TahunAjaran;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TahunAjarController extends Controller
 {
@@ -15,7 +18,7 @@ class TahunAjarController extends Controller
     public function index()
     {
         $tahun = TahunAjaran::paginate(10);
-        return view('pages.tahun.index',compact('tahun'));
+        return view('pages.tahun.index', compact('tahun'));
     }
 
     /**
@@ -25,7 +28,8 @@ class TahunAjarController extends Controller
      */
     public function create()
     {
-        //
+        $guru = Guru::all();
+        return view('pages.tahun.create', compact('guru'));
     }
 
     /**
@@ -36,7 +40,23 @@ class TahunAjarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tahun'     => 'required|unique:tahun_ajaran',
+            'semester'  => 'required',
+            'active'    => 'required'
+        ]);
+        try {
+            DB::beginTransaction();
+            TahunAjaran::create($request->all());
+            DB::commit();
+            return redirect()->route('view.tahun')
+            ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            // dd($e);
+            return redirect()->route('view.tahun.insert')
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**

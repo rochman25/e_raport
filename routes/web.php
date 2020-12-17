@@ -62,7 +62,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('tahun/store', [TahunAjarController::class, 'store'])->name('insert.tahun');
     Route::get('tahun/{id}/edit', [TahunAjarController::class, 'edit'])->name('view.tahun.edit');
     Route::post('tahun/{id}/update', [TahunAjarController::class, 'update'])->name('update.tahun');
-    Route::post('tahun/{id}/delete', [TahunAjarController::class, 'destroy'])->name('delete.tahun');
+    Route::post('tahun/delete', [TahunAjarController::class, 'destroy'])->name('delete.tahun');
 
     //kelas
     Route::get('kelas', [KelasController::class, 'index'])->name('view.kelas');
