@@ -60,7 +60,8 @@
                                     <td class="text-info"> {{ $item->updated_at->isoFormat('dddd, D MMMM Y') }}</td>
                                     <td>
                                         @if ($item->username != Auth::user()->username)
-                                            <a href="{{ route('view.user.edit',$item->id) }}" class="btn btn-success btn-sm">ubah</a>
+                                            <a href="{{ route('view.user.edit', $item->id) }}"
+                                                class="btn btn-success btn-sm">ubah</a>
                                             <button data-id="{{ $item->id }}"
                                                 class="btn btn-danger btn-sm btnHapus">hapus</button>
                                         @endif
@@ -83,3 +84,55 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script type="text/javascript">
+        $(document).on('click', '.btnHapus', function name(params) {
+            const url = "{{ route('delete.user') }}";
+            const idBtn = $(this).data('id');
+            swal({
+                title: "Konfirmasi",
+                text: "Apakah anda yakin ingin menghapus ?",
+                icon: "warning",
+                buttons: {
+                    confirm: {
+                        text: "Ya",
+                        value: true,
+                        visible: true,
+                        className: "",
+                        closeModal: false
+                    },
+                    cancel: {
+                        text: "Tidak",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    }
+
+                }
+            }).then(isConfirm => {
+                if (isConfirm) {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            id: idBtn
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                swal("Sukses!", "Data berhasil dihapus", "success");
+                                setTimeout(location.reload.bind(location), 1000);
+                            } else {
+                                swal("Error", "Maaf terjadi kesalahan", "error");
+                            }
+                        }
+                    });
+                } else {
+                    swal.close();
+                }
+            });
+        })
+
+    </script>
+@endpush

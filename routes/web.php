@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('users/store', [UserController::class, 'store'])->name('insert.user');
     Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('view.user.edit');
     Route::post('users/{id}/update', [UserController::class, 'update'])->name('update.user');
-    Route::post('users/{id}/delete', [UserController::class, 'destroy'])->name('delete.user');
+    Route::post('users/delete', [UserController::class, 'destroy'])->name('delete.user');
     Route::post('users/{id}/reset_password', [UserController::class, 'resetPassword'])->name('reset_password.user');
 
     //master_data

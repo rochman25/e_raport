@@ -129,8 +129,23 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        try {
+            DB::beginTransaction();
+
+            RoleUser::where('user_id',$id)->delete();
+            User::where('id',$id)->delete();
+            
+            DB::commit();
+            
+            $success = true;         
+            return response()->json(['success'=>$success]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['success' => false,'errors' => $e]);
+        }
     }
 }
