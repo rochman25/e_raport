@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('mata_pelajaran/store', [MatpelController::class, 'store'])->name('insert.mata_pelajaran');
     Route::get('mata_pelajaran/{id}/edit', [MatpelController::class, 'edit'])->name('view.mata_pelajaran.edit');
     Route::post('mata_pelajaran/{id}/update', [MatpelController::class, 'update'])->name('update.mata_pelajaran');
-    Route::post('mata_pelajaran/{id}/delete', [MatpelController::class, 'destroy'])->name('delete.mata_pelajaran');
+    Route::post('mata_pelajaran/delete', [MatpelController::class, 'destroy'])->name('delete.mata_pelajaran');
 
     //guru
     Route::get('guru', [GuruController::class, 'index'])->name('view.guru');

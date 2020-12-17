@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MataPelajaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MatpelController extends Controller
 {
@@ -35,8 +36,31 @@ class MatpelController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {        
+        if($request->id !== null){
+            $request->validate([
+                'kode_matpel' => 'required|unique:mata_pelajaran,kode_matpel,'.$request->id,
+                'nama_matpel' => 'required'
+            ]);
+
+            $query = MataPelajaran::find($request->id);
+            $query->update($request->all());
+        }else{
+            $request->validate([
+                'kode_matpel' => 'required|unique:mata_pelajaran',
+                'nama_matpel' => 'required'
+            ]);
+
+            $query = MataPelajaran::create($request->all());
+        }
+
+        if ($query) {
+            return redirect()->route('view.mata_pelajaran')
+                ->with('success', 'Data Berhasil disimpan');
+        } else {
+            return redirect()->route('view.mata_pelajaran')
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
@@ -79,8 +103,22 @@ class MatpelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        try {
+            DB::beginTransaction();
+
+            MataPelajaran::find($id)->delete();
+            
+            DB::commit();
+            
+            $success = true;         
+            return response()->json(['success'=>$success]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['success' => false,'errors' => $e]);
+        }
     }
 }
