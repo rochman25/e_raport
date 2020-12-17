@@ -88,7 +88,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('guru/store', [GuruController::class, 'store'])->name('insert.guru');
     Route::get('guru/{id}/edit', [GuruController::class, 'edit'])->name('view.guru.edit');
     Route::post('guru/{id}/update', [GuruController::class, 'update'])->name('update.guru');
-    Route::post('guru/{id}/delete', [GuruController::class, 'destroy'])->name('delete.guru');
+    Route::post('guru/delete', [GuruController::class, 'destroy'])->name('delete.guru');
 
     //siswa
     Route::get('siswa', [SiswaController::class, 'index'])->name('view.siswa');

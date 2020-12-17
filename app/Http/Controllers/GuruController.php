@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GuruController extends Controller
 {
@@ -25,7 +27,7 @@ class GuruController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.gurus.create');
     }
 
     /**
@@ -36,7 +38,22 @@ class GuruController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nip'   => 'required|unique:guru',
+            'nama'  => 'required',
+        ]);
+        try {
+            DB::beginTransaction();
+            Guru::create($request->all());
+            DB::commit();
+            return redirect()->route('view.guru')
+                ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            // dd($e);
+            return redirect()->route('view.guru.insert')
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
@@ -58,7 +75,8 @@ class GuruController extends Controller
      */
     public function edit($id)
     {
-        //
+        $guru = Guru::find($id);
+        return view('pages.gurus.edit',compact('guru'));
     }
 
     /**
@@ -70,7 +88,22 @@ class GuruController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nip'   => 'required|unique:guru,nip,'.$id,
+            'nama'  => 'required',
+        ]);
+        try {
+            DB::beginTransaction();
+            Guru::where('id',$id)->update($request->only(['nip','nama','gelar_depan','gelar_belakang']));
+            DB::commit();
+            return redirect()->route('view.guru')
+                ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            // dd($e);
+            return redirect()->route('view.guru.edit',$id)
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
@@ -79,8 +112,21 @@ class GuruController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        try {
+            DB::beginTransaction();
+
+            Guru::where('id',$id)->delete();
+            DB::commit();
+            
+            $success = true;         
+            return response()->json(['success'=>$success]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['success' => false,'errors' => $e]);
+        }
     }
 }
