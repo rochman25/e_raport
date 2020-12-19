@@ -14,8 +14,8 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $siswa = Siswa::paginate(10);
-        return view('pages.siswas.index',compact('siswa'));
+        $siswas = Siswa::paginate(10);
+        return view('pages.siswas.index',compact('siswas'));
     }
 
     /**
@@ -25,7 +25,7 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.siswas.create');
     }
 
     /**
