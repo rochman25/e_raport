@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KelasController extends Controller
 {
@@ -36,7 +37,26 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_kelas' => 'required',
+            'kode_kelas' => 'required|unique:kelas',
+            'tingkat'    => 'required'
+        ]);
+        
+        if($request->id !== null){
+            $query = Kelas::find($request->id);
+            $query->update($request->all());
+        }else{
+            $query = Kelas::create($request->all());
+        }
+
+        if ($query) {
+            return redirect()->route('view.kelas')
+                ->with('success', 'Data Berhasil disimpan');
+        } else {
+            return redirect()->route('view.kelas')
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
@@ -79,8 +99,22 @@ class KelasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        try {
+            DB::beginTransaction();
+
+            Kelas::find($id)->delete();
+            
+            DB::commit();
+            
+            $success = true;         
+            return response()->json(['success'=>$success]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['success' => false,'errors' => $e]);
+        }
     }
 }

@@ -68,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('kelas/store', [KelasController::class, 'store'])->name('insert.kelas');
     Route::get('kelas/{id}/edit', [KelasController::class, 'edit'])->name('view.kelas.edit');
     Route::post('kelas/{id}/update', [KelasController::class, 'update'])->name('update.kelas');
-    Route::post('kelas/{id}/delete', [KelasController::class, 'destroy'])->name('delete.kelas');
+    Route::post('kelas/delete', [KelasController::class, 'destroy'])->name('delete.kelas');
 
 
     //matpel
