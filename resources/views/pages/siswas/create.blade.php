@@ -24,14 +24,14 @@
                             @endif
                         </div>
                     </div>
-                    <form class="forms-sample" action="{{ route('insert.guru') }}" method="POST">
+                    <form class="forms-sample" action="{{ route('insert.siswa') }}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group @error('nis') has-danger @enderror">
-                                    <label for="exampleInputUsername1">NIS</label>
-                                    <input type="text" name="nis" class="form-control" id="exampleInputUsername1"
-                                        placeholder="Masukkan NIP Siswa">
+                                    <label for="nis">NIS</label>
+                                    <input type="text" name="nis" class="form-control" id="nis"
+                                        placeholder="Masukkan NIS Siswa" value={{ old('nis') }}>
                                     @error('nis')
                                         <label id="usernameError" class="error mt-2 text-danger">{{ $message }}</label>
                                     @enderror
@@ -41,9 +41,92 @@
                                 <div class="form-group @error('nama_lengkap') has-danger @enderror">
                                     <label for="nama">Nama Lengkap</label>
                                     <input type="text" name="nama_lengkap" class="form-control" id="nama"
-                                        placeholder="Masukkan Nama Siswa">
-                                    @error('nama')
+                                        placeholder="Masukkan Nama Siswa" value="{{ old('nama_lengkap') }}">
+                                    @error('nama_lengkap')
                                         <label id="nameError" class="error mt-2 text-danger" for="nama">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form group @error('nama_panggilan') has-danger @enderror">
+                                    <label for="nama_panggilan">Nama Panggilan</label>
+                                    <input type="text" name="nama_panggilan" class="form-control" id="nama_panggilan"
+                                        placeholder="Masukkan Nama Panggilan Siswa" value="{{ old('nama_panggilan') }}">
+                                    @error('nama_panggilan')
+                                        <label id="nameError" class="error mt-2 text-danger"
+                                            for="nama_panggilan">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group @error('nama_lengkap') has-danger @enderror">
+                                    <label for="nama">Jenis Kelamin</label>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="jk"
+                                                        id="membershipRadios1" value="L"> Laki - Laki <i
+                                                        class="input-helper"></i></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="jk"
+                                                        id="membershipRadios2" value="P"> Perempuan <i
+                                                        class="input-helper"></i></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group @error('pob') has-danger @enderror">
+                                    <label for="pob">Tempat Lahir</label>
+                                    <input type="text" name="pob" class="form-control" id="pob"
+                                        placeholder="Masukkan Tempat Lahir Siswa" value="{{ old('pob') }}">
+                                    @error('pob')
+                                        <label id="usernameError" class="error mt-2 text-danger">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group @error('dob') has-danger @enderror">
+                                    <label for="dob">Tanggal Lahir</label>
+                                    <input type="date" name="dob" class="form-control" id="dob"
+                                        placeholder="Masukkan Tanggal Lahir Siswa" value={{ old('dob') }}>
+                                    @error('dob')
+                                        <label id="nameError" class="error mt-2 text-danger" for="dob">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group @error('agama') has-danger @enderror">
+                                    <label for="agama">Agama</label>
+                                    <select name="agama" class="form-control">
+                                        <option value="">-- Pilih Agama Siswa --</option>
+                                        @foreach ($agama as $item)
+                                            <option value="{{ $item }}">{{ $item }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('agama')
+                                        <label id="usernameError" class="error mt-2 text-danger">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group @error('alamat') has-danger @enderror">
+                                    <label for="alamat">Alamat</label>
+                                    <textarea name="alamat" class="form-control" rows=4>{{ old('alamat') }}</textarea>
+                                    @error('alamat')
+                                        <label id="nameError" class="error mt-2 text-danger" for="alamat">{{ $message }}</label>
                                     @enderror
                                 </div>
                             </div>

@@ -59,7 +59,7 @@
                                     <td>{{ $item->nama_lengkap }}</td>
                                     <td class="text-info"> {{ $item->updated_at->isoFormat('dddd, D MMMM Y') }}</td>
                                     <td>
-                                        <a href="{{ route('view.guru.edit', $item->id) }}"
+                                        <a href="{{ route('view.siswa.edit', $item->id) }}"
                                             class="btn btn-success btn-sm">ubah</a>
                                         <button data-id="{{ $item->id }}" class="btn btn-danger btn-sm btnHapus">hapus</button>
                                     </td>
@@ -84,7 +84,7 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).on('click', '.btnHapus', function name(params) {
-            const url = "{{ route('delete.guru') }}";
+            const url = "{{ route('delete.siswa') }}";
             const idBtn = $(this).data('id');
             swal({
                 title: "Konfirmasi",

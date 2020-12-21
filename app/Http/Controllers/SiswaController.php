@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SiswaController extends Controller
 {
@@ -25,7 +27,8 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        return view('pages.siswas.create');
+        $agama = ["Islam","Protestan","Katolik","Hindu","Buddha","Konghucu"];
+        return view('pages.siswas.create',compact('agama'));
     }
 
     /**
@@ -36,7 +39,22 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nis' => 'required|unique:siswa',
+            'nama_lengkap' => 'required'
+        ]);
+        try {
+            DB::beginTransaction();
+            Siswa::create($request->all());
+            DB::commit();
+            return redirect()->route('view.siswa')
+                ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            // dd($e);
+            return redirect()->route('view.siswa.insert')
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
@@ -58,7 +76,9 @@ class SiswaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $siswa = Siswa::find($id);
+        $agama = ["Islam","Protestan","Katolik","Hindu","Buddha","Konghucu"];
+        return view('pages.siswas.edit',compact('siswa','agama'));
     }
 
     /**
@@ -70,7 +90,22 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nis' => 'required|unique:siswa,nis,'.$id,
+            'nama_lengkap' => 'required'
+        ]);
+        try {
+            DB::beginTransaction();
+            Siswa::where('id',$id)->update($request->only(['nis','nama_lengkap','nama_panggilan','dob','pob','jk','agama','alamat']));
+            DB::commit();
+            return redirect()->route('view.siswa')
+                ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            // dd($e);
+            return redirect()->route('view.siswa.edit',$id)
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
@@ -79,8 +114,21 @@ class SiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        try {
+            DB::beginTransaction();
+
+            Siswa::where('id',$id)->delete();
+            DB::commit();
+            
+            $success = true;         
+            return response()->json(['success'=>$success]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['success' => false,'errors' => $e]);
+        }
     }
 }

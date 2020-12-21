@@ -23,12 +23,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 
 Route::middleware(['guest'])->group(function () {
+    Route::get('/', [AuthController::class, 'viewLogin'])->name('auth.login');
     Route::get('/login', [AuthController::class, 'viewLogin'])->name('auth.login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.login.action');
 });
@@ -96,7 +93,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('siswa/store', [SiswaController::class, 'store'])->name('insert.siswa');
     Route::get('siswa/{id}/edit', [SiswaController::class, 'edit'])->name('view.siswa.edit');
     Route::post('siswa/{id}/update', [SiswaController::class, 'update'])->name('update.siswa');
-    Route::post('siswa/{id}/delete', [SiswaController::class, 'destroy'])->name('delete.siswa');
+    Route::post('siswa/delete', [SiswaController::class, 'destroy'])->name('delete.siswa');
 
     //walikelas
     Route::get('walikelas', [WaliKelasController::class, 'index'])->name('view.walikelas');
