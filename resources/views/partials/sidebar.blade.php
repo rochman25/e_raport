@@ -39,6 +39,22 @@
                 </ul>
             </div>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic">
+                <span class="menu-title">Pengaturan Data</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-apps menu-icon"></i>
+            </a>
+            <div class="collapse" id="ui-basic2">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.tahun') }}">Kelas</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.mata_pelajaran') }}">Walikelas</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.guru') }}">Mata Pelajaran</a></li>
+                </ul>
+            </div>
+        </li>
 
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#general-pages" aria-expanded="false"
