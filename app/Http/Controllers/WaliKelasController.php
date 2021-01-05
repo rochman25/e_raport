@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
+use App\Models\Kelas;
+use App\Models\TahunAjaran;
 use App\Models\WaliKelas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WaliKelasController extends Controller
 {
@@ -14,8 +18,11 @@ class WaliKelasController extends Controller
      */
     public function index()
     {
-        $walikelas = WaliKelas::paginate(10);
-        return view('pages.walikelas.index',compact('walikelas'));
+        $walikelas = WaliKelas::with(['guru','kelas','tahun_ajaran'])->paginate(10);
+        $kelas = Kelas::all();
+        $guru = Guru::all();
+        $tahun_ajaran = TahunAjaran::all();
+        return view('pages.walikelas.index',compact('walikelas','kelas','guru','tahun_ajaran'));
     }
 
     /**
@@ -36,7 +43,26 @@ class WaliKelasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'guru_id' => 'required',
+            'tahun_ajaran_id' => 'required',
+            'kelas_id' => 'required',
+        ]);
+        
+        if($request->id !== null){
+            $query = WaliKelas::find($request->id);
+            $query->update($request->all());
+        }else{
+            $query = WaliKelas::create($request->all());
+        }
+
+        if ($query) {
+            return redirect()->route('view.walikelas')
+                ->with('success', 'Data Berhasil disimpan');
+        } else {
+            return redirect()->route('view.walikelas')
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
@@ -79,8 +105,22 @@ class WaliKelasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        try {
+            DB::beginTransaction();
+
+            WaliKelas::find($id)->delete();
+            
+            DB::commit();
+            
+            $success = true;         
+            return response()->json(['success'=>$success]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['success' => false,'errors' => $e]);
+        }
     }
 }

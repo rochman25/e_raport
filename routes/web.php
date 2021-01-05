@@ -96,10 +96,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('siswa/delete', [SiswaController::class, 'destroy'])->name('delete.siswa');
 
     //walikelas
-    Route::get('walikelas', [WaliKelasController::class, 'index'])->name('view.walikelas');
-    Route::get('walikelas/create', [WaliKelasController::class, 'create'])->name('view.walikelas.insert');
-    Route::post('walikelas/store', [WaliKelasController::class, 'store'])->name('insert.walikelas');
-    Route::get('walikelas/{id}/edit', [WaliKelasController::class, 'edit'])->name('view.walikelas.edit');
-    Route::post('walikelas/{id}/update', [WaliKelasController::class, 'update'])->name('update.walikelas');
-    Route::post('walikelas/{id}/delete', [WaliKelasController::class, 'destroy'])->name('delete.walikelas');
+    Route::get('setup_wali', [WaliKelasController::class, 'index'])->name('view.walikelas');
+    Route::get('setup_wali/create', [WaliKelasController::class, 'create'])->name('view.walikelas.insert');
+    Route::post('setup_wali/store', [WaliKelasController::class, 'store'])->name('insert.walikelas');
+    Route::get('setup_wali/{id}/edit', [WaliKelasController::class, 'edit'])->name('view.walikelas.edit');
+    Route::post('setup_wali/{id}/update', [WaliKelasController::class, 'update'])->name('update.walikelas');
+    Route::post('setup_wali/delete', [WaliKelasController::class, 'destroy'])->name('delete.walikelas');
+
+    //kelas/setting
+    // Route::get
+
 });
