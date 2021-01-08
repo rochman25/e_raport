@@ -48,7 +48,7 @@
             </a>
             <div class="collapse" id="ui-basic2">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ "#" }}">Kelas</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('view.setup_kelas') }}">Kelas</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{ route('view.walikelas') }}">Walikelas</a></li>
                     <li class="nav-item"> <a class="nav-link" href="{{ route('view.setup_matpel') }}">Mata Pelajaran</a></li>
                 </ul>

@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\MatpelController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SetupKelasController;
 use App\Http\Controllers\SetupMatpelController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TahunAjarController;
@@ -102,7 +103,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('setup_wali/delete', [WaliKelasController::class, 'destroy'])->name('delete.walikelas');
 
     //setup_kelas
-    // Route::get
+    Route::get('setup_class', [SetupKelasController::class, 'index'])->name('view.setup_kelas');
+    Route::get('setup_class/create', [SetupKelasController::class, 'create'])->name('view.setup_kelas.insert');
+    Route::post('setup_class/store', [SetupKelasController::class, 'store'])->name('insert.setup_kelas');
+    Route::get('setup_class/{id}/edit', [SetupKelasController::class, 'edit'])->name('view.setup_kelas.edit');
+    Route::post('setup_class/{id}/update', [SetupKelasController::class, 'update'])->name('update.setup_kelas');
+    Route::post('setup_class/delete', [SetupKelasController::class, 'destroy'])->name('delete.setup_kelas');
 
     //setup_matpel
     Route::get('setup_matpel', [SetupMatpelController::class, 'index'])->name('view.setup_matpel');

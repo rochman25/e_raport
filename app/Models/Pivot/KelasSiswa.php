@@ -9,5 +9,6 @@ class KelasSiswa extends Model
 {
     use HasFactory;
     protected $table = "kelas_siswa";
+    protected $fillable = ["siswa_id","kelas_id","tahun_ajaran_id"];
     public $timestamps = false;
 }
