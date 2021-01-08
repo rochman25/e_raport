@@ -4,7 +4,7 @@
         <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left p-5">
                 <div class="brand-logo">
-                    <img src="../../assets/images/logo.svg">
+                    <center><img src="../../assets/images/logo.png"></center>
                 </div>
                 @error('loginError')
                     <div class="alert alert-danger" role="alert">
