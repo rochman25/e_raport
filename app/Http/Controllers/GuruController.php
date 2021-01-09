@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
+use App\Models\Role;
+use App\Models\RoleUser;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class GuruController extends Controller
 {
@@ -45,6 +49,20 @@ class GuruController extends Controller
         try {
             DB::beginTransaction();
             Guru::create($request->all());
+            $user = new User();
+
+            $user->username = $request->nip;
+            $user->name = $request->nama;
+            $user->password = Hash::make("guru123"); 
+            $user->save();
+
+            $role = Role::where('name','guru')->first();
+            
+            $userRole = new RoleUser();
+            $userRole->user_id = $user->id;
+            $userRole->role_id = $role->id;
+            $userRole->save();
+
             DB::commit();
             return redirect()->route('view.guru')
                 ->with('success', 'Data Berhasil disimpan');

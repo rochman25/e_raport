@@ -28,6 +28,18 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
+                                <div class="form-group @error('role_id') has-danger @enderror">
+                                    <label for="role">Role</label>
+                                    <select name="role_id" class="form-control" id="role">
+                                        <option value="">-- Pilih Role --</option>
+                                        @foreach ($roles as $item)
+                                            <option value="{{ $item->id }}" @if($user->role[0]->id == $item->id) selected @endif>{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('role_id')
+                                        <label id="roleError" class="error mt-2 text-danger" for="name">{{ $message }}</label>
+                                    @enderror
+                                </div>
                                 <div class="form-group @error('username') has-danger @enderror">
                                     <label for="exampleInputUsername1">Username</label>
                                     <input type="text" name="username" class="form-control" id="exampleInputUsername1"
@@ -73,18 +85,7 @@
                                         <label id="nameError" class="error mt-2 text-danger" for="name">{{ $message }}</label>
                                     @enderror
                                 </div>
-                                <div class="form-group @error('role_id') has-danger @enderror">
-                                    <label for="role">Role</label>
-                                    <select name="role_id" class="form-control" id="role">
-                                        <option value="">-- Pilih Role --</option>
-                                        @foreach ($roles as $item)
-                                            <option value="{{ $item->id }}" @if($user->role[0]->id == $item->id) selected @endif>{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('role_id')
-                                        <label id="roleError" class="error mt-2 text-danger" for="name">{{ $message }}</label>
-                                    @enderror
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="row">

@@ -15,7 +15,7 @@
                         <div class="col-md-12">
                             <h4 class="card-title">Form Pengguna</h4>
                             @if ($errors->any())
-                                <div class="alert alert-danger alert-dismissible"> 
+                                <div class="alert alert-danger alert-dismissible">
                                     <p>Simpan Data Gagal</p>
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -28,9 +28,21 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
+                                <div id="formRole" class="form-group @error('role_id') has-danger @enderror">
+                                    <label for="role">Role</label>
+                                    <select name="role_id" class="form-control" id="role">
+                                        <option value="">-- Pilih Role --</option>
+                                        @foreach ($roles as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('role_id')
+                                        <label id="roleError" class="error mt-2 text-danger" for="name">{{ $message }}</label>
+                                    @enderror
+                                </div>
                                 <div class="form-group @error('username') has-danger @enderror">
                                     <label for="exampleInputUsername1">Username</label>
-                                    <input type="text" name="username" class="form-control" id="exampleInputUsername1"
+                                    <input type="text" id="username" name="username" class="form-control"
                                         placeholder="Username">
                                     @error('username')
                                         <label id="usernameError" class="error mt-2 text-danger"
@@ -57,6 +69,21 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div id="formGuru" class="form-group @error('guru_id') has-danger @enderror">
+                                    <label for="exampleInputUsername1">Guru</label>
+                                    <select id="guruid" name="guru_id" class="form-control">
+                                        <option value="">-- Pilih Guru --</option>
+                                        @foreach ($guru as $item)
+                                            <option value="{{ $item->id }}" data-nip="{{ $item->nip }}"
+                                                data-nama="{{ $item->gelar_depan . ' ' . $item->nama . ' ' . $item->gelar_belakang }}">
+                                                {{ $item->nip . ' ' . $item->gelar_depan . ' ' . $item->nama . ' ' . $item->gelar_belakang }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('guru_id')
+                                        <label class="error mt-2 text-danger">{{ $message }}</label>
+                                    @enderror
+                                </div>
                                 <div class="form-group @error('name') has-danger @enderror">
                                     <label for="name">Nama</label>
                                     <input type="text" name="name" class="form-control" id="name"
@@ -73,18 +100,6 @@
                                         <label id="nameError" class="error mt-2 text-danger" for="name">{{ $message }}</label>
                                     @enderror
                                 </div>
-                                <div class="form-group @error('role_id') has-danger @enderror">
-                                    <label for="role">Role</label>
-                                    <select name="role_id" class="form-control" id="role">
-                                        <option value="">-- Pilih Role --</option>
-                                        @foreach ($roles as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('role_id')
-                                        <label id="roleError" class="error mt-2 text-danger" for="name">{{ $message }}</label>
-                                    @enderror
-                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -99,3 +114,29 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#formGuru').css('display', 'none')
+            $('#guruid').val("");
+            $('#formRole').on('change', function() {
+                var role = $('#formRole option:selected').text();
+                if (role === "guru") {
+                    $('#formGuru').css('display', 'block')
+                } else {
+                    $('#formGuru').css('display', 'none')
+                    $('#guruid').val("");
+                    $('#username').val("");
+                    $('#username').attr('readonly', false);
+                    $('#name').val("");
+                }
+            });
+            $('#guruid').on('change', function() {
+                $('#username').val($('#guruid option:selected').data('nip'))
+                $('#username').attr('readonly', true);
+                $('#name').val($('#guruid option:selected').data('nama'))
+            });
+        });
+
+    </script>
+@endpush

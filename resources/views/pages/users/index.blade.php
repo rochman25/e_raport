@@ -46,7 +46,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>Username</th>
-                                <th>Email</th>
+                                <th>Nama</th>
+                                <th>Role</th>
                                 <th>Terakhir diupdate</th>
                                 <th>Aksi</th>
                             </tr>
@@ -56,7 +57,8 @@
                                 <tr>
                                     <td>{{ ++$index }}</td>
                                     <td>{{ $item->username }}</td>
-                                    <td>{{ $item->email }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->role[0]['name'] ? $item->role[0]['name'] : "" }}</td>
                                     <td class="text-info"> {{ $item->updated_at->isoFormat('dddd, D MMMM Y') }}</td>
                                     <td>
                                         @if ($item->username != Auth::user()->username)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\User;
@@ -18,7 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::with('role')->paginate(10);
+        // dd($users->toArray());
         return view('pages.users.index', compact('users'));
     }
 
@@ -30,7 +32,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('pages.users.create', compact('roles'));
+        $guru = Guru::all();
+        return view('pages.users.create', compact('roles', 'guru'));
     }
 
     /**
@@ -41,23 +44,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+
         $request->validate([
             'username' => 'required|unique:users',
-            'email'    => 'required|unique:users',
+            'email'    => 'nullable|unique:users,email',
             'password' => 'required|confirmed',
             'role_id'  => 'required',
         ]);
+
         try {
             DB::beginTransaction();
             $user = User::create($request->all());
+
             $roleUser = new RoleUser();
             $roleUser->user_id = $user->id;
             $roleUser->role_id = $request->role_id;
             $roleUser->save();
             DB::commit();
+
             return redirect()->route('view.user')
-            ->with('success', 'Data Berhasil disimpan');
+                ->with('success', 'Data Berhasil disimpan');
         } catch (Exception $e) {
             DB::rollBack();
             // dd($e);
@@ -85,10 +91,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::with('role')->where('id',$id)->first();
+        $user = User::with('role')->where('id', $id)->first();
         $roles = Role::all();
         // dd($user->role);
-        return view('pages.users.edit',compact('user','roles'));
+        return view('pages.users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -101,26 +107,25 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'username' => 'required|unique:users,username,'.$id,
-            'email'    => 'required|unique:users,email,'.$id,
+            'username' => 'required|unique:users,username,' . $id,
+            'email'    => 'nullable|unique:users,email,' . $id,
             'role_id'  => 'required',
         ]);
 
-        try{
+        try {
             DB::beginTransaction();
             User::findOrFail($id);
-            User::where('id',$id)->update($request->only(['username','email','name']));
-            RoleUser::where('user_id',$id)->update($request->only('role_id'));
+            User::where('id', $id)->update($request->only(['username', 'email', 'name']));
+            RoleUser::where('user_id', $id)->update($request->only('role_id'));
             DB::commit();
             return redirect()->route('view.user')
-            ->with('success', 'Data Berhasil disimpan');
-        }catch(Exception $e){
+                ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
             DB::rollBack();
             // dd($e);
-            return redirect()->route('view.user.edit',$id)
-            ->with('error', 'Data Gagal disimpan');
+            return redirect()->route('view.user.edit', $id)
+                ->with('error', 'Data Gagal disimpan');
         }
-
     }
 
     /**
@@ -135,17 +140,16 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            RoleUser::where('user_id',$id)->delete();
-            User::where('id',$id)->delete();
-            
-            DB::commit();
-            
-            $success = true;         
-            return response()->json(['success'=>$success]);
+            RoleUser::where('user_id', $id)->delete();
+            User::where('id', $id)->delete();
 
+            DB::commit();
+
+            $success = true;
+            return response()->json(['success' => $success]);
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['success' => false,'errors' => $e]);
+            return response()->json(['success' => false, 'errors' => $e]);
         }
     }
 }
