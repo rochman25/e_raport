@@ -15,10 +15,10 @@
                         <div class="col-md-6">
                             <h4 class="card-title">List Data Role Pengguna</h4>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <button style="float: right" type="button" data-toggle="modal" data-target="#exampleModal-4"
                                 class="btn btn-sm btn-outline-primary btn-fw">Tambah</button>
-                        </div>
+                        </div> --}}
                     </div>
                     @if ($errors->any())
                         <div class="alert alert-danger mt-5">
@@ -47,7 +47,7 @@
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Terakhir diupdate</th>
-                                <th>Aksi</th>
+                                {{-- <th>Aksi</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -56,16 +56,16 @@
                                     <td>{{ ++$index }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td class="text-info"> {{ $item->updated_at->isoFormat('dddd, D MMMM Y') }}</td>
-                                    <td>
+                                    {{-- <td>
                                         <button class="btn btn-success btn-sm btnUbah" data-id="{{ $item->id }}"
                                             data-name="{{ $item->name }}" data-toggle="modal"
                                             data-target="#exampleModal-4">ubah</button>
                                         <button data-id="{{ $item->id }}" class="btn btn-danger btn-sm btnHapus">hapus</button>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" style="text-align: center"> -- Data Kosong -- </td>
+                                    <td colspan="3" style="text-align: center"> -- Data Kosong -- </td>
                                 </tr>
                             @endforelse
                         </tbody>

@@ -25,12 +25,12 @@ class AuthController extends Controller
         }
 
         $data = [
-            'username'     => $request->input('username'),
+            'username'  => $request->input('username'),
             'password'  => $request->input('password'),
         ];
 
         Auth::attempt($data);
-
+        // dd(Auth::check());
         if (Auth::check()) {
             return redirect()->route('view.home');
         } else {

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\RoleUser;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // if(Auth::check()){
+        //     $role = RoleUser::where('user_id',Auth::user()->id)->first();
+        //     dd($role);
+        // }
+        // dd(Auth::check());
     }
 
     /**
@@ -23,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // if(Auth::check()){
+        //     $role = RoleUser::where('user_id',Auth::user()->id)->first();
+        //     dd($role);
+        // }
+        // dd(Session::get());
     }
 }
