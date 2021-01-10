@@ -12,7 +12,7 @@ class UserComposer
     public function compose(View $view)
     {
         if(Auth::check()){
-            $role = RoleUser::with('role')->where('user_id',Auth::user()->id)->first();
+            $role = RoleUser::with('role','user','user.guru')->where('user_id',Auth::user()->id)->first();
             // dd($role->role['name']);
             $view->with('baseRole',$role);
         }

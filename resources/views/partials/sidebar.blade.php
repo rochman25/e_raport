@@ -38,6 +38,13 @@
                     </ul>
                 </div>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('view.kelas_saya',$baseRole->user->guru['id']) }}" aria-expanded="false"
+                    aria-controls="ui-basic">
+                    <span class="menu-title">Kelas Saya</span>
+                    <i class="mdi mdi-table menu-icon"></i>
+                </a>
+            </li>
         @else
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"

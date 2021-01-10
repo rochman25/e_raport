@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\Kelas;
+use App\Models\Pivot\KelasSiswa;
 use App\Models\TahunAjaran;
 use App\Models\WaliKelas;
 use Illuminate\Http\Request;
@@ -71,9 +72,21 @@ class WaliKelasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
-        //
+        $tahun_ajaran_id = TahunAjaran::where('active','1')->first()->id;
+        $kelas_id = $request->kelas_id;
+        $tahun_ajaran = TahunAjaran::all();
+        if($request->tahun_ajaran_id){
+            $tahun_ajaran_id = $request->tahun_ajaran_id;
+        }
+        $walikelas = WaliKelas::with('kelas')->where('tahun_ajaran_id',$tahun_ajaran_id)->when($kelas_id,function($query,$kelas_id){
+            return $query->where('kelas_id',$kelas_id);
+        })->where('guru_id',$id)->first();
+        $kelas = WaliKelas::with('kelas','tahun_ajaran')->where('tahun_ajaran_id',$tahun_ajaran_id)->where('guru_id',$id)->get();
+        $siswa = KelasSiswa::with('siswa')->where('kelas_id',$walikelas->kelas_id)->paginate(10);
+        // dd($walikelas->toArray());
+        return view('pages.walikelas.show',compact('walikelas','tahun_ajaran','siswa','kelas'));
     }
 
     /**

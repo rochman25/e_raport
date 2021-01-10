@@ -101,6 +101,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('setup_wali', [WaliKelasController::class, 'index'])->name('view.walikelas');
     Route::post('setup_wali/store', [WaliKelasController::class, 'store'])->name('insert.walikelas');
     Route::post('setup_wali/delete', [WaliKelasController::class, 'destroy'])->name('delete.walikelas');
+    Route::get('kelas_saya/{id}',[WaliKelasController::class,'show'])->name('view.kelas_saya');
 
     //setup_kelas
     Route::get('setup_class', [SetupKelasController::class, 'index'])->name('view.setup_kelas');
