@@ -13,7 +13,7 @@ class CreateNilaiSiswaTable2 extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('nilai_siswa');
+        // Schema::dropIfExists('nilai_siswa');
         Schema::create('nilai_siswa', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('guru_matpel_id');
@@ -22,6 +22,8 @@ class CreateNilaiSiswaTable2 extends Migration
             $table->unsignedBigInteger('kd_id')->nullable(true);
             $table->timestamps();
 
+            $table->foreign('guru_matpel_id')->references('id')->on('guru_matpel');
+            $table->foreign('kd_id')->references('id')->on('kompetensi_dasar');
         });
     }
 
@@ -32,6 +34,6 @@ class CreateNilaiSiswaTable2 extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nilai_siswa_table2');
+        Schema::dropIfExists('nilai_siswa');
     }
 }
