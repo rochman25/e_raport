@@ -31,7 +31,7 @@
                 </a>
                 <div class="collapse" id="ui-basic">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.tahun') }}">Nilai Pengetahuan</a>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.kompetensi_dasar') }}">Kompetensi Dasar</a>
                         </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.mata_pelajaran') }}">Nilai Ketrampilan</a>
                         </li>
@@ -76,6 +76,8 @@
                 </a>
                 <div class="collapse" id="ui-basic2">
                     <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.kompetensi_dasar') }}">Kompetensi Dasar</a>
+                        </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.setup_kelas') }}">Kelas</a></li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.walikelas') }}">Walikelas</a>
                         </li>

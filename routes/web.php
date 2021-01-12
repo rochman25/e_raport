@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\KompetensiDasarController;
 use App\Http\Controllers\MatpelController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SetupKelasController;
@@ -27,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['guest'])->group(function () {
-    Route::get('/', [AuthController::class, 'viewLogin'])->name('auth.login');
+    // Route::get('/', [AuthController::class, 'viewLogin'])->name('');
     Route::get('/login', [AuthController::class, 'viewLogin'])->name('auth.login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.login.action');
 });
@@ -118,4 +119,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('setup_matpel/{id}/edit', [SetupMatpelController::class, 'edit'])->name('view.setup_matpel.edit');
     Route::post('setup_matpel/{id}/update', [SetupMatpelController::class, 'update'])->name('update.setup_matpel');
     Route::post('setup_matpel/delete', [SetupMatpelController::class, 'destroy'])->name('delete.setup_matpel');
+
+    //kompetensi Dasar
+    Route::get('kompetensi_dasar', [KompetensiDasarController::class, 'index'])->name('view.kompetensi_dasar');
+    Route::get('kompetensi_dasar/create', [KompetensiDasarController::class, 'create'])->name('view.kompetensi_dasar.insert');
+    Route::post('kompetensi_dasar/store', [KompetensiDasarController::class, 'store'])->name('insert.kompetensi_dasar');
+    Route::get('kompetensi_dasar/{id}/edit', [KompetensiDasarController::class, 'edit'])->name('view.kompetensi_dasar.edit');
+    Route::post('kompetensi_dasar/{id}/update', [KompetensiDasarController::class, 'update'])->name('update.kompetensi_dasar');
+    Route::post('kompetensi_dasar/delete', [KompetensiDasarController::class, 'destroy'])->name('delete.kompetensi_dasar');
+
+    //nilai siswa
+
 });
