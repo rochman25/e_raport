@@ -33,7 +33,7 @@
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.kompetensi_dasar') }}">Kompetensi Dasar</a>
                         </li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.mata_pelajaran') }}">Nilai Ketrampilan</a>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.nilai_siswa') }}">Nilai Siswa</a>
                         </li>
                     </ul>
                 </div>

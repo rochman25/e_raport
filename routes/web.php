@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KompetensiDasarController;
 use App\Http\Controllers\MatpelController;
+use App\Http\Controllers\NilaiSiswaController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SetupKelasController;
 use App\Http\Controllers\SetupMatpelController;
@@ -129,5 +130,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('kompetensi_dasar/delete', [KompetensiDasarController::class, 'destroy'])->name('delete.kompetensi_dasar');
 
     //nilai siswa
-
+    Route::get('nilai_siswa', [NilaiSiswaController::class, 'index'])->name('view.nilai_siswa');
+    Route::get('nilai_siswa/create', [NilaiSiswaController::class, 'create'])->name('view.nilai_siswa.insert');
+    Route::post('nilai_siswa/store', [NilaiSiswaController::class, 'store'])->name('insert.nilai_siswa');
+    Route::get('nilai_siswa/{id}/edit', [NilaiSiswaController::class, 'edit'])->name('view.nilai_siswa.edit');
+    Route::post('nilai_siswa/{id}/update', [NilaiSiswaController::class, 'update'])->name('update.nilai_siswa');
+    Route::post('nilai_siswa/delete', [NilaiSiswaController::class, 'destroy'])->name('delete.nilai_siswa');
 });
