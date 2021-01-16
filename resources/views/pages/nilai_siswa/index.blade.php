@@ -130,7 +130,7 @@
                                     <td>{{ $item->guruMatpel->tahun_ajaran->tahun }}</td>
                                     <td>
                                         <a
-                                            href="{{ route('view.nilai_siswa.edit', $item->kelas_id) }}"
+                                            href="{{ route('view.nilai_siswa.edit', [$guruMatpel[0]->id,"kelas" => $item->kelas_id]) }}"
                                             class="btn btn-success btn-sm">Nilai</a>
                                         {{-- <button data-siswaid="{{ $item->id }}" data-kelasid="{{ $item->kelas_id }}"
                                             data-tahunajaranid={{ $item->tahun_ajaran_id }}

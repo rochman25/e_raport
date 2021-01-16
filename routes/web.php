@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['guest'])->group(function () {
-    // Route::get('/', [AuthController::class, 'viewLogin'])->name('');
+    Route::get('/', [AuthController::class, 'viewLogin']);
     Route::get('/login', [AuthController::class, 'viewLogin'])->name('auth.login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.login.action');
 });

@@ -13,10 +13,12 @@ class CreateDetailSiswaTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_siswa', function (Blueprint $table) {
+        Schema::create('detail_nilai_siswa', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('nilai_id');
             $table->unsignedBigInteger('siswa_id');
             $table->float('nilai_angka');
+            $table->timestamps();
 
             $table->foreign('nilai_id')->references('id')->on('nilai_siswa');
             $table->foreign('siswa_id')->references('id')->on('siswa');
@@ -30,6 +32,6 @@ class CreateDetailSiswaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_siswa');
+        Schema::dropIfExists('detail_nilai_siswa');
     }
 }
