@@ -16,6 +16,16 @@
                                         </button>
                                     </div>
                                 @endif
+
+                                @if ($message = Session::get('success'))
+                                    <div class="alert bg-success alert-icon-left alert-dismissible mt-5" role="alert">
+                                        <span class="alert-icon"><i class="fa fa fa-check"></i></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        <strong>{{ $message }}</strong>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <form class="forms-sample" action="{{ route('update.nilai_siswa', $id) }}" method="POST">
@@ -84,6 +94,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
+                                    <a href="{{ route('print.nilai_siswa',[$id,'kelas' => $kelas_id,'tipe_nilai'=>request()->get('tipe_nilai'),'jenis_nilai'=>request()->get('jenis_nilai')]) }}" class="btn btn-success mx-1">Download PDF</a>
                                     <button type="button" id="cek-nilai" class="btn btn-info" style="float: right">Cek
                                         Nilai</button>
                                 </div>
