@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DetailNilai;
 use App\Models\Kelas;
 use App\Models\KompetensiDasar;
+use App\Models\MataPelajaran;
 use App\Models\NilaiSiswa;
 use App\Models\Pivot\GuruMatpel;
 use App\Models\Pivot\KelasSiswa;
@@ -12,6 +13,7 @@ use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use PDF;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -95,19 +97,19 @@ class NilaiSiswaController extends Controller
         ];
         $kd_id = $request->kd_id;
         $nilai = NilaiSiswa::where('guru_matpel_id', $id)
-                    ->where('kelas_id', $request->kelas)
-                    ->where('tipe_nilai',$request->tipe_nilai)
-                    ->where('jenis_nilai',$request->jenis_nilai)
-                    ->when($kd_id,function($query,$kd_id){
-                        return $query->where('kd_id',$kd_id);
-                    })
-                    ->first();
+            ->where('kelas_id', $request->kelas)
+            ->where('tipe_nilai', $request->tipe_nilai)
+            ->where('jenis_nilai', $request->jenis_nilai)
+            ->when($kd_id, function ($query, $kd_id) {
+                return $query->where('kd_id', $kd_id);
+            })
+            ->first();
         $idNilai = $nilai->id ?? null;
         $siswa = KelasSiswa::where('kelas_id', $request->kelas)->get();
-        if($idNilai == null){
+        if ($idNilai == null) {
             $nilai_siswa = [];
             // $siswa = [];
-        }else{
+        } else {
             $nilai_siswa = DetailNilai::when($idNilai, function ($query, $idNilai) {
                 return $query->where('nilai_id', $idNilai);
             })->get()->toArray();
@@ -179,23 +181,24 @@ class NilaiSiswaController extends Controller
         //
     }
 
-    public function createPDF(Request $request,$id){
+    public function createPDF(Request $request, $id)
+    {
         $kd_id = $request->kd_id;
         $guru_matpel = GuruMatpel::find($id);
         $nilai = NilaiSiswa::where('guru_matpel_id', $id)
-                    ->where('kelas_id', $request->kelas)
-                    ->where('tipe_nilai',$request->tipe_nilai)
-                    ->where('jenis_nilai',$request->jenis_nilai)
-                    ->when($kd_id,function($query,$kd_id){
-                        return $query->where('kd_id',$kd_id);
-                    })
-                    ->first();
+            ->where('kelas_id', $request->kelas)
+            ->where('tipe_nilai', $request->tipe_nilai)
+            ->where('jenis_nilai', $request->jenis_nilai)
+            ->when($kd_id, function ($query, $kd_id) {
+                return $query->where('kd_id', $kd_id);
+            })
+            ->first();
         $idNilai = $nilai->id ?? null;
         $siswa = KelasSiswa::where('kelas_id', $request->kelas)->get();
-        if($idNilai == null){
+        if ($idNilai == null) {
             $nilai_siswa = [];
             // $siswa = [];
-        }else{
+        } else {
             $nilai_siswa = DetailNilai::when($idNilai, function ($query, $idNilai) {
                 return $query->where('nilai_id', $idNilai);
             })->get()->toArray();
@@ -221,9 +224,34 @@ class NilaiSiswaController extends Controller
         // $keys = array_keys(array_column($jnspenilaian, 'id'), 'uts');
         // $keys = array_keys(array_combine(array_keys($jnspenilaian), array_column($jnspenilaian, 'id')),'uts');
         // dd($keys);
-        $pdf = PDF::loadView('pages.prints.nilai_siswa',compact('jnspenilaian','guru_matpel','kelas','kelas_id','nilai_siswa','siswa','kd_id','nilai'));
+        $pdf = PDF::loadView('pages.prints.nilai_siswa', compact('jnspenilaian', 'guru_matpel', 'kelas', 'kelas_id', 'nilai_siswa', 'siswa', 'kd_id', 'nilai'));
         return $pdf->download('rekap_nilai_kelas.pdf');
         // return $pdf->stream('rekap nilai kelas.pdf',array("Attachment" => false));
     }
 
+
+    public function detailNilaiSiswa(Request $request, $id)
+    {
+        $kelas_id = $request->kelas_id;
+        $matpel_id = $request->matpel_id;
+        $matpel = MataPelajaran::all();
+        $kelas = KelasSiswa::where('siswa_id',$id)->get();
+        $tahun_ajaran = TahunAjaran::all();
+        $nilai_siswa = DetailNilai::where('siswa_id', $id);
+        if($kelas_id){
+            $nilai_siswa->whereHas('nilai.kelas', function (Builder $query) use ($kelas_id) {
+                $query->where('id', $kelas_id);
+            })->get();
+        }
+
+        if($matpel_id){
+            $nilai_siswa->whereHas('nilai.guru_matpel.mata_pelajaran', function (Builder $query) use ($matpel_id) {
+                $query->where('id', $matpel_id);
+            })->get();
+        }
+
+        $nilai_siswa = $nilai_siswa->paginate(10);
+        // dd($nilai_siswa);
+        return view('pages.nilai_siswa.detail', compact('nilai_siswa', 'matpel', 'kelas', 'tahun_ajaran'));
+    }
 }

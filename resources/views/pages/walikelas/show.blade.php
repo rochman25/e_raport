@@ -102,7 +102,7 @@
                                     <td>{{ $walikelas->tahun_ajaran->tahun }}</td>
                                     <td>
                                         <a
-                                            href="#"
+                                            href="{{ route('detail.nilai_siswa',$item['siswa']['id']) }}"
                                             class="btn btn-success btn-sm">Detail</a>
                                         {{-- <button data-siswaid="{{ $item->siswa_id }}"
                                             data-kelasid="{{ $item->kelas_id }}" data-tahunajaranid={{ $item->tahun_ajaran_id }}
