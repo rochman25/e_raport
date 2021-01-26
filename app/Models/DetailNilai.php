@@ -9,7 +9,7 @@ class DetailNilai extends Model
 {
     use HasFactory;
     protected $table = "detail_nilai_siswa";
-    protected $fillable = ["id","nilai_id","siswa_id","nilai_angka"];
+    protected $fillable = ["id","nilai_id","siswa_id","nilai_angka","nilai_huruf","deskripsi","tahun_ajaran_id"];
 
     public function siswa(){
         return $this->belongsTo(Siswa::class,'siswa_id');

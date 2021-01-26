@@ -12,8 +12,8 @@ class UserComposer
     public function compose(View $view)
     {
         if(Auth::check()){
-            $role = RoleUser::with('role','user','user.guru')->where('user_id',Auth::user()->id)->first();
-            // dd($role->role['name']);
+            $role = RoleUser::with('role','user','user.guru','user.guru.walikelas')->where('user_id',Auth::user()->id)->first();
+            // dd($role->toArray());
             $view->with('baseRole',$role);
         }
     }

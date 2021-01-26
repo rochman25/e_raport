@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatatanWalikelasController;
 use App\Http\Controllers\EkstrakurikulerController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KompetensiDasarController;
 use App\Http\Controllers\MatpelController;
 use App\Http\Controllers\NilaiSiswaController;
+use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SetupKelasController;
 use App\Http\Controllers\SetupMatpelController;
@@ -144,5 +146,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ekstrakurikuler', [EkstrakurikulerController::class, 'index'])->name('view.ekstrakurikuler');
     Route::post('ekstrakurikuler/store', [EkstrakurikulerController::class, 'store'])->name('insert.ekstrakurikuler');
     Route::post('ekstrakurikuler/delete', [EkstrakurikulerController::class, 'destroy'])->name('delete.ekstrakurikuler');
+
+    //Prestasi
+    Route::get('prestasi', [PrestasiController::class, 'index'])->name('view.prestasi');
+    Route::get('prestasi/create', [PrestasiController::class, 'create'])->name('view.prestasi.insert');
+    Route::post('prestasi/store', [PrestasiController::class, 'store'])->name('insert.prestasi');
+    Route::get('prestasi/{id}/edit', [PrestasiController::class, 'edit'])->name('view.prestasi.edit');
+    Route::post('prestasi/{id}/update', [PrestasiController::class, 'update'])->name('update.prestasi');
+    Route::post('prestasi/delete', [PrestasiController::class, 'destroy'])->name('delete.prestasi');
+
+
+    //nilai ekstra
+    Route::get('ekstra_nilai', [NilaiSiswaController::class, 'ekstra_view'])->name('view.ekstra_nilai');
+    Route::post('ekstra_nilai/store', [NilaiSiswaController::class, 'ekstra_store'])->name('insert.ekstra_nilai');
+
+    //catatan
+    Route::get('catatan', [CatatanWalikelasController::class, 'index'])->name('view.catatan');
+    Route::get('catatan/create', [CatatanWalikelasController::class, 'create'])->name('view.catatan.insert');
+    Route::post('catatan/store', [CatatanWalikelasController::class, 'store'])->name('insert.catatan');
+    Route::get('catatan/{id}/edit', [CatatanWalikelasController::class, 'edit'])->name('view.catatan.edit');
+    Route::post('catatan/{id}/update', [CatatanWalikelasController::class, 'update'])->name('update.catatan');
+    Route::post('catatan/delete', [CatatanWalikelasController::class, 'destroy'])->name('delete.catatan');
 
 });

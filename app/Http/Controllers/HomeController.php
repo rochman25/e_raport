@@ -8,6 +8,7 @@ use App\Models\Pivot\GuruMatpel;
 use App\Models\Pivot\GuruMatpelKelas;
 use App\Models\RoleUser;
 use App\Models\Siswa;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,10 +29,12 @@ class HomeController extends Controller
         } else {
             // dd($role->toArray());
             $guruId = $role->user->guru['id'];
-            $matpel = GuruMatpel::with('kelas')->where('guru_id', $guruId)->count();
-            $kelas_matpel = GuruMatpelKelas::with(['guruMatpel' => function ($query)use($guruId) {
-                $query->where('guru_id', $guruId);
-            }])->count();
+            $dataMatpel = GuruMatpel::with('kelas')->where('guru_id', $guruId)->get();
+            $kelas_matpel = 0;
+            $matpel = count($dataMatpel);
+            foreach($dataMatpel as $item){
+                $kelas_matpel += count($item->kelas);
+            }
         }
         return view('pages.dashboard', compact('guru', 'siswa', 'kelas', 'matpel','kelas_matpel'));
     }

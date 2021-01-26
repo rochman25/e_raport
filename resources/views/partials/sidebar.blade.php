@@ -31,20 +31,44 @@
                 </a>
                 <div class="collapse" id="ui-basic">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.kompetensi_dasar') }}">Kompetensi Dasar</a>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.kompetensi_dasar') }}">Kompetensi
+                                Dasar</a>
                         </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.nilai_siswa') }}">Nilai Siswa</a>
                         </li>
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('view.kelas_saya',$baseRole->user->guru['id']) }}" aria-expanded="false"
-                    aria-controls="ui-basic">
-                    <span class="menu-title">Kelas Saya</span>
-                    <i class="mdi mdi-table menu-icon"></i>
-                </a>
-            </li>
+            @if (count($baseRole->user->guru['walikelas']) > 0)
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('view.kelas_saya', $baseRole->user->guru['id']) }}"
+                        >
+                        <span class="menu-title">Kelas Saya</span>
+                        <i class="mdi mdi-table menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('view.ekstra_nilai') }}"
+                        aria-expanded="false">
+                        <span class="menu-title">Ekstrakurikuler</span>
+                        <i class="mdi mdi-basketball menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('view.prestasi') }}"
+                        aria-expanded="false">
+                        <span class="menu-title">Prestasi</span>
+                        <i class="mdi mdi-trophy menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('view.catatan') }}"
+                        aria-expanded="false">
+                        <span class="menu-title">Catatan</span>
+                        <i class="mdi mdi-note menu-icon"></i>
+                    </a>
+                </li>
+            @endif
         @else
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
@@ -63,7 +87,8 @@
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.guru') }}">Guru</a></li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.siswa') }}">Siswa</a></li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.kelas') }}">Kelas</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.ekstrakurikuler') }}">Ekstrakurikuler</a></li>
+                        <li class="nav-item"> <a class="nav-link"
+                                href="{{ route('view.ekstrakurikuler') }}">Ekstrakurikuler</a></li>
                     </ul>
                 </div>
             </li>
@@ -77,7 +102,8 @@
                 </a>
                 <div class="collapse" id="ui-basic2">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.kompetensi_dasar') }}">Kompetensi Dasar</a>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.kompetensi_dasar') }}">Kompetensi
+                                Dasar</a>
                         </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.setup_kelas') }}">Kelas</a></li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.walikelas') }}">Walikelas</a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailNilai;
+use App\Models\Ekstrakurikuler;
 use App\Models\Kelas;
 use App\Models\KompetensiDasar;
 use App\Models\MataPelajaran;
@@ -11,6 +12,7 @@ use App\Models\Pivot\GuruMatpel;
 use App\Models\Pivot\KelasSiswa;
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
+use App\Models\WaliKelas;
 use PDF;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,6 +40,33 @@ class NilaiSiswaController extends Controller
         return view('pages.nilai_siswa.index', compact('guruMatpel', 'tahun_ajaran', 'siswa'));
     }
 
+    public function ekstra_view(Request $request){
+        $id = Auth::user()->guru->id ?? "";
+        $tahun_ajaran_id = TahunAjaran::where('active','1')->first()->id;
+        $kelas_id = $request->kelas_id;
+        $tahun_ajaran = TahunAjaran::all();
+        $ekstrakurikuler = Ekstrakurikuler::all();
+        if($request->tahun_ajaran_id){
+            $tahun_ajaran_id = $request->tahun_ajaran_id;
+        }
+        $ekstra_id = $request->ekstra_id;
+        $walikelas = WaliKelas::with('kelas')->where('tahun_ajaran_id',$tahun_ajaran_id)->when($kelas_id,function($query,$kelas_id){
+            return $query->where('kelas_id',$kelas_id);
+        })->where('guru_id',$id)->first();
+        $kelas = WaliKelas::with('kelas','tahun_ajaran')->where('tahun_ajaran_id',$tahun_ajaran_id)->where('guru_id',$id)->get();
+        $siswa = KelasSiswa::with('siswa')->where('kelas_id',$walikelas->kelas_id)->paginate(10);
+        if($ekstra_id == null){
+            $siswa = [];
+        }
+        // dd($walikelas->toArray());
+        return view('pages.nilai_siswa.ekstrakurikuler.index',compact('walikelas','tahun_ajaran','siswa','kelas','ekstrakurikuler'));
+    }
+
+    public function store(Request $request)
+    {
+        // dd($request);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -54,9 +83,50 @@ class NilaiSiswaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function ekstra_store(Request $request)
     {
         // dd($request);
+        $request->validate([
+            // "tipe_nilai" => 'required',
+            // "jenis_nilai" => 'required',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            // dd($request);
+            $nilai_id = $request->id_nilai;
+            $nilaiSiswa = NilaiSiswa::find($nilai_id);
+            if (!$nilaiSiswa) {
+                $nilaiSiswa = new NilaiSiswa();
+            }
+            $nilaiSiswa->kelas_id = $request->kelas_id;
+            $nilaiSiswa->jenis_nilai = "eks";
+            $nilaiSiswa->ekstra_id = $request->ekstra_id;
+            $nilaiSiswa->save();
+
+            $nilai = $request->nilai_huruf;
+            $deskripsi = $request->deskripsi;
+            $nilai_detail_id = $request->id_nilai_siswa;
+            $siswa_id = $request->siswa_id;
+            if (!empty($nilai)) {
+                foreach ($nilai as $index => $item) {
+                    // dd($item);
+                    DetailNilai::updateOrCreate(
+                        ['id' => $nilai_detail_id[$index]],
+                        ['nilai_id' => $nilaiSiswa->id, 'siswa_id' => $siswa_id[$index], 'nilai_angka' => 0,'nilai_huruf' => $item,'deskripsi' => $deskripsi[$index]]
+                    );
+                }
+            }
+            DB::commit();
+            return redirect()->back()
+                ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            dd($e);
+            return redirect()->back()
+                ->with('error', 'Data Gagal disimpan');
+        }
+
     }
 
     /**
