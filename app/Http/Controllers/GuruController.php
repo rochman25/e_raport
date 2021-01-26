@@ -50,10 +50,10 @@ class GuruController extends Controller
             DB::beginTransaction();
             Guru::create($request->all());
             $user = new User();
-
+            
             $user->username = $request->nip;
             $user->name = $request->nama;
-            $user->password = Hash::make("guru123"); 
+            $user->password = "guru123"; 
             $user->save();
 
             $role = Role::where('name','guru')->first();
@@ -68,7 +68,7 @@ class GuruController extends Controller
                 ->with('success', 'Data Berhasil disimpan');
         } catch (Exception $e) {
             DB::rollBack();
-            // dd($e);
+            dd($e);
             return redirect()->route('view.guru.insert')
                 ->with('error', 'Data Gagal disimpan');
         }

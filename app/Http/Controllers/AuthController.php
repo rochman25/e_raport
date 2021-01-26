@@ -28,7 +28,7 @@ class AuthController extends Controller
             'username'  => $request->input('username'),
             'password'  => $request->input('password'),
         ];
-
+        // dd($data);
         Auth::attempt($data);
         // dd(Auth::check());
         if (Auth::check()) {
