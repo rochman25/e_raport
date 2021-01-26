@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EkstrakurikulerController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
@@ -138,4 +139,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('nilai_siswa/delete', [NilaiSiswaController::class, 'destroy'])->name('delete.nilai_siswa');
     Route::get('nilai_siswa/{id}/print',[NilaiSiswaController::class, 'createPDF'])->name('print.nilai_siswa');
     Route::get('nilai_siswa/{id}/detail',[NilaiSiswaController::class,'detailNilaiSiswa'])->name('detail.nilai_siswa');
+
+    //ekstrakurikuler
+    Route::get('ekstrakurikuler', [EkstrakurikulerController::class, 'index'])->name('view.ekstrakurikuler');
+    Route::post('ekstrakurikuler/store', [EkstrakurikulerController::class, 'store'])->name('insert.ekstrakurikuler');
+    Route::post('ekstrakurikuler/delete', [EkstrakurikulerController::class, 'destroy'])->name('delete.ekstrakurikuler');
+
 });

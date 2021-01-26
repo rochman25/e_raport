@@ -63,6 +63,7 @@
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.guru') }}">Guru</a></li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.siswa') }}">Siswa</a></li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.kelas') }}">Kelas</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.ekstrakurikuler') }}">Ekstrakurikuler</a></li>
                     </ul>
                 </div>
             </li>

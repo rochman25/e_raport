@@ -24,5 +24,4 @@ class CatatanWalikelas extends Model
     }
 
     
-
 }
