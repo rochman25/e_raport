@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KompetensiDasarController;
 use App\Http\Controllers\MatpelController;
+use App\Http\Controllers\NilaiSikapController;
 use App\Http\Controllers\NilaiSiswaController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\RoleController;
@@ -172,4 +173,11 @@ Route::middleware(['auth'])->group(function () {
     //absensi
     Route::get('absensi', [AbsensiController::class, 'index'])->name('view.absensi');
     Route::post('absensi/store', [AbsensiController::class, 'store'])->name('insert.absensi');
+
+    //nilai sikap
+    Route::get('sikap_spiritual', [NilaiSikapController::class, 'index_spiritual'])->name('view.sikap_spiritual');
+    Route::post('sikap_spiritual/store', [NilaiSikapController::class, 'store_spiritual'])->name('insert.sikap_spiritual');
+
+    Route::get('sikap_sosial', [NilaiSikapController::class, 'index_sosial'])->name('view.sikap_sosial');
+    Route::post('sikap_sosial/store', [NilaiSikapController::class, 'store_sosial'])->name('insert.sikap_sosial');
 });

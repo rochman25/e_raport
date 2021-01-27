@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class NilaiAbsensi extends Model
+class NilaiSikap extends Model
 {
     use HasFactory;
-    protected $table = "nilai_absensi_siswa";
-    protected $fillable = ["siswa_id","guru_id","kelas_id","tahun_ajaran_id","sakit","izin","alpha"];
+    protected $table = "nilai_sikap";
+    protected $fillable = ["siswa_id","guru_id","type","kelas_id","tahun_ajaran_id","predikat","deskripsi"];
 
     public function siswa(){
         return $this->belongsTo(Siswa::class,'siswa_id');
@@ -26,4 +26,6 @@ class NilaiAbsensi extends Model
     public function guru(){
         return $this->belongsTo(Guru::class,'guru_id');
     }
+
+
 }

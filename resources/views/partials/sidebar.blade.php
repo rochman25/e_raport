@@ -36,6 +36,10 @@
                         </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.nilai_siswa') }}">Nilai Siswa</a>
                         </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.sikap_spiritual') }}">Nilai Sikap Spiritual</a>
+                        </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.sikap_sosial') }}">Nilai Sikap Sosial</a>
+                        </li>
                     </ul>
                 </div>
             </li>
