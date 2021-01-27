@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatatanWalikelasController;
 use App\Http\Controllers\EkstrakurikulerController;
@@ -168,4 +169,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('catatan/{id}/update', [CatatanWalikelasController::class, 'update'])->name('update.catatan');
     Route::post('catatan/delete', [CatatanWalikelasController::class, 'destroy'])->name('delete.catatan');
 
+    //absensi
+    Route::get('absensi', [AbsensiController::class, 'index'])->name('view.absensi');
+    Route::post('absensi/store', [AbsensiController::class, 'store'])->name('insert.absensi');
 });

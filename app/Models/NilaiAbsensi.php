@@ -9,6 +9,7 @@ class NilaiAbsensi extends Model
 {
     use HasFactory;
     protected $table = "nilai_absensi_siswa";
+    protected $fillable = ["siswa_id","guru_id","kelas_id","tahun_ajaran_id","sakit","izin","alpha"];
 
     public function siswa(){
         return $this->belongsTo(Siswa::class,'siswa_id');

@@ -48,6 +48,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('view.absensi') }}"
+                        aria-expanded="false">
+                        <span class="menu-title">Absensi</span>
+                        <i class="mdi mdi-calendar menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('view.ekstra_nilai') }}"
                         aria-expanded="false">
                         <span class="menu-title">Ekstrakurikuler</span>
