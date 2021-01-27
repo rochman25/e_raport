@@ -101,7 +101,7 @@
                     @endif
                     <form action="{{ route('insert.ekstra_nilai') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="id_nilai" value="">
+                        <input type="hidden" name="id_nilai" value="{{ $nilai->id ?? "" }}">
                         <input type="hidden" name="ekstra_id" value="{{ request()->get('ekstra_id') }}">
                         <input type="hidden" name="kelas_id" value="{{ request()->get('kelas_id') }}">
                         <input type="hidden" name="tahun_ajaran_id" value="{{ request()->get('tahun_ajaran_id') }}">
@@ -116,23 +116,24 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php ($no = 1)
                                 @forelse ($siswa as $index => $item)
                                     <tr>
-                                        <td>{{ ++$index }}</td>
+                                        <td>{{ $no++ }}</td>
                                         <td>{{ $item['siswa']['nis'] }}</td>
                                         <td>{{ $item['siswa']['nama_lengkap'] }}</td>
                                         <td>
-                                            <input type="hidden" name="id_nilai_siswa[]" value="">
+                                            <input type="hidden" name="id_nilai_siswa[]" value="{{ !empty($nilai_siswa) ? $nilai_siswa[$index]['id'] : "" }}">
                                             <input type="hidden" name="siswa_id[]" value="{{ $item['siswa']['id'] }}">
                                             <select name="nilai_huruf[]" class="form-control">
-                                                <option value="Baik">Baik</option>
-                                                <option value="Sangat Baik">Sangat Baik</option>
-                                                <option value="Cukup">Cukup</option>
-                                                <option value="Kurang">Kurang</option>
+                                                <option value="Baik" @if($nilai_siswa && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] &&$nilai_siswa[$index]['nilai_huruf'] == "Baik") selected @endif>Baik</option>
+                                                <option value="Sangat Baik" @if($nilai_siswa && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] && $nilai_siswa[$index]['nilai_huruf'] == "Sangat Baik") selected @endif>Sangat Baik</option>
+                                                <option value="Cukup" @if($nilai_siswa && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] && $nilai_siswa[$index]['nilai_huruf'] == "Cukup") selected @endif>Cukup</option>
+                                                <option value="Kurang" @if($nilai_siswa && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] && $nilai_siswa[$index]['nilai_huruf'] == "Kurang") selected @endif>Kurang</option>
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="text" name="deskripsi[]" class="form-control" value="">
+                                            <input type="text" name="deskripsi[]" class="form-control" value="{{ $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] ? $nilai_siswa[$index]['deskripsi'] : "" }}">
                                         </td>
                                     @empty
                                     <tr>

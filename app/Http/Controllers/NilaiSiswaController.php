@@ -58,8 +58,23 @@ class NilaiSiswaController extends Controller
         if($ekstra_id == null){
             $siswa = [];
         }
-        // dd($walikelas->toArray());
-        return view('pages.nilai_siswa.ekstrakurikuler.index',compact('walikelas','tahun_ajaran','siswa','kelas','ekstrakurikuler'));
+        $nilai = NilaiSiswa::where('kelas_id', $request->kelas_id)
+            ->where('jenis_nilai', "eks")
+            ->when($ekstra_id, function ($query, $kd_id) {
+                return $query->where('ekstra_id', $kd_id);
+            })
+            ->first();
+        $idNilai = $nilai->id ?? null;
+        if ($idNilai == null) {
+            $nilai_siswa = [];
+            // $siswa = [];
+        } else {
+            $nilai_siswa = DetailNilai::when($idNilai, function ($query, $idNilai) {
+                return $query->where('nilai_id', $idNilai);
+            })->get()->toArray();
+        }
+        // dd($nilai_siswa);
+        return view('pages.nilai_siswa.ekstrakurikuler.index',compact('walikelas','tahun_ajaran','siswa','kelas','ekstrakurikuler','nilai','nilai_siswa'));
     }
 
     public function store(Request $request)
@@ -101,6 +116,7 @@ class NilaiSiswaController extends Controller
             }
             $nilaiSiswa->kelas_id = $request->kelas_id;
             $nilaiSiswa->jenis_nilai = "eks";
+            $nilaiSiswa->tahun_ajaran_id = $request->tahun_ajaran_id;
             $nilaiSiswa->ekstra_id = $request->ekstra_id;
             $nilaiSiswa->save();
 

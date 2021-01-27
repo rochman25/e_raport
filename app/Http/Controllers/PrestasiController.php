@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Prestasi;
+use App\Models\Siswa;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PrestasiController extends Controller
 {
@@ -13,7 +18,8 @@ class PrestasiController extends Controller
      */
     public function index()
     {
-        //
+        $prestasi = Prestasi::where('guru_id',Auth::user()->guru->id)->paginate(10);
+        return view('pages.prestasi.index',compact('prestasi'));
     }
 
     /**
@@ -23,7 +29,9 @@ class PrestasiController extends Controller
      */
     public function create()
     {
-        //
+        // $siswa = KelasSiswa::with('siswa')->where('kelas_id',$walikelas->kelas_id)->get();
+        $siswa = Siswa::all();
+        return view('pages.prestasi.create',compact('siswa'));
     }
 
     /**
@@ -34,7 +42,24 @@ class PrestasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'siswa_id' => 'required',
+            'jenis_kegiatan' => 'required'
+        ]);
+        try {
+            DB::beginTransaction();
+            $dataRequest = $request->all();
+            $dataRequest['guru_id'] = Auth::user()->guru->id;
+            Prestasi::create($dataRequest);
+            DB::commit();
+            return redirect()->route('view.prestasi')
+                ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            // dd($e);
+            return redirect()->route('view.prestasi.insert')
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
@@ -56,7 +81,9 @@ class PrestasiController extends Controller
      */
     public function edit($id)
     {
-        //
+        $prestasi = Prestasi::find($id);
+        $siswa = Siswa::all();
+        return view('pages.prestasi.edit',compact('prestasi','siswa'));
     }
 
     /**
@@ -68,7 +95,22 @@ class PrestasiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'siswa_id' => 'required',
+            'jenis_kegiatan' => 'required'
+        ]);
+        try {
+            DB::beginTransaction();
+            Prestasi::where('id',$id)->update($request->only(['siswa_id','jenis_kegiatan','keterangan']));
+            DB::commit();
+            return redirect()->route('view.prestasi')
+                ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            // dd($e);
+            return redirect()->route('view.prestasi.edit',$id)
+                ->with('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
@@ -77,8 +119,21 @@ class PrestasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        try {
+            DB::beginTransaction();
+
+            Prestasi::where('id',$id)->delete();
+            DB::commit();
+            
+            $success = true;         
+            return response()->json(['success'=>$success]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['success' => false,'errors' => $e]);
+        }
     }
 }
