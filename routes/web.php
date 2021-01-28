@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatatanWalikelasController;
+use App\Http\Controllers\CetakController;
 use App\Http\Controllers\EkstrakurikulerController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
@@ -180,4 +181,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('sikap_sosial', [NilaiSikapController::class, 'index_sosial'])->name('view.sikap_sosial');
     Route::post('sikap_sosial/store', [NilaiSikapController::class, 'store_sosial'])->name('insert.sikap_sosial');
+
+    //cetak
+    Route::get('cetak_raport',[CetakController::class,'view_raport_data'])->name('view.cetak_raport');
+    Route::get('cetak_leger',[CetakController::class,'view_leger_data'])->name('view.cetak_leger');
 });
