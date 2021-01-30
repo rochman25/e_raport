@@ -169,14 +169,14 @@
         <table class="table" width="100%" border="1px">
             <tr>
                 <th width="5%" style="border-bottom:0px">No</th>
-                <th width="35%" style="border-bottom:0px">Mata Pelajaran</th>
+                <th width="55%" style="border-bottom:0px">Mata Pelajaran</th>
                 <th colspan="2">Pengetahuan</th>
             </tr>
             <tr>
                 <th style="border-top: 0px"></th>
                 <th style="border-top: 0px"></th>
                 <th width="15%">Nilai</th>
-                <th width="45%">Predikat</th>
+                <th width="15%">Predikat</th>
             </tr>
             @if ($nilai_pengetahuan)
                 @foreach ($nilai_pengetahuan as $index => $item)
@@ -191,7 +191,15 @@
                             <p style="text-align: center;margin:5px">{{ $item['ratarata'] }}</p>
                         </td>
                         <td>
-                            <p style="text-align: justify;margin:5px">{{ "" }}</p>
+                            <p style="text-align: center;margin:5px">
+                                @if ($item['ratarata'] > 88)
+                                    {{ 'A' }}
+                                @elseif($item['ratarata'] >= 78)
+                                    {{ 'B' }}
+                                @else
+                                    {{ 'C' }}
+                                @endif
+                            </p>
                         </td>
                     </tr>
                 @endforeach
@@ -217,14 +225,14 @@
         <table class="table" width="100%" border="1px">
             <tr>
                 <th width="5%" style="border-bottom:0px">No</th>
-                <th width="35%" style="border-bottom:0px">Mata Pelajaran</th>
+                <th width="55%" style="border-bottom:0px">Mata Pelajaran</th>
                 <th colspan="2">Ketrampilan</th>
             </tr>
             <tr>
                 <th style="border-top: 0px"></th>
                 <th style="border-top: 0px"></th>
                 <th width="15%">Nilai</th>
-                <th width="45%">Predikat</th>
+                <th width="15%">Predikat</th>
             </tr>
             @if ($nilai_ketrampilan)
                 @foreach ($nilai_ketrampilan as $index => $item)
@@ -239,7 +247,15 @@
                             <p style="text-align: center;margin:5px">{{ $item['ratarata'] }}</p>
                         </td>
                         <td>
-                            <p style="text-align: justify;margin:5px">{{ "" }}</p>
+                            <p style="text-align: center;margin:5px">
+                                @if ($item['ratarata'] > 88)
+                                    {{ 'A' }}
+                                @elseif($item['ratarata'] >= 78)
+                                    {{ 'B' }}
+                                @else
+                                    {{ 'C' }}
+                                @endif
+                            </p>
                         </td>
                     </tr>
                 @endforeach
@@ -387,6 +403,53 @@
                 </td>
             </tr>
         </table>
+        <p class="page"></p>
+        <h5 class="subtitle"></h5>
+        <table width="100%" style="margin-top:10px">
+            <tr>
+                <td width="70%">Mengetahui Orang Tua / Wali</td>
+                <td style="text-align: left">Kesugihan , {{ $tglNow }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align: left">Wali Kelas,</td>
+            </tr>
+            <tr>
+                <td>
+                    <p>&nbsp;</p>
+                </td>
+                <td style="text-align: left"></td>
+            </tr>
+            <tr>
+                <td>..............</td>
+                <td style="text-align: left"><b><u>{{ !empty($guru->gelar_depan) ? $guru->gelar_depan. ". ":"".$guru->nama.", ".$guru->gelar_belakang }}</u></b></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align: left">{{ "NIP . ".$guru->nip }}</td>
+            </tr>
+        </table>
+        <table width="100%">
+            <tr>
+                <td style="text-align: center">Mengetahui Kepala Sekolah</td>
+            </tr>
+            <tr>
+                <td>
+                    <p>&nbsp;</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center">
+                    <b><u>{{ $tahun_ajaran->nama_ks }}</u></b>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center">
+                    {{ "NIP . ".$tahun_ajaran->nip_ks }}
+                </td>
+            </tr>
+        </table>
+
     </div>
     {{-- <script type="text/php">
         if ( isset($pdf) ) {

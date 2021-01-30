@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CatatanWalikelas;
 use App\Models\DetailNilai;
+use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\NilaiAbsensi;
 use App\Models\NilaiSikap;
@@ -15,6 +16,7 @@ use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use App\Models\WaliKelas;
 use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +60,10 @@ class CetakController extends Controller
 
     public function cetak_raport(Request $request)
     {
+        setlocale(LC_TIME, 'id_ID');
+        \Carbon\Carbon::setLocale('id');
+        \Carbon\Carbon::now()->formatLocalized("%A, %d %B %Y");
+
         $siswa = Siswa::find($request->id);
         $tahun_ajaran = TahunAjaran::find($request->tahun_ajaran_id);
         $tahun_ajaran_id = $tahun_ajaran->id;
@@ -133,13 +139,13 @@ class CetakController extends Controller
             }
             // dd($total2/$jml2);
             // echo $jml2."<br>";
-            if($jml2 != 0){
+            if ($jml2 != 0) {
                 $nilai_ketrampilan[] = [
                     'matpel_id' => $matpel_id,
                     'matpel_nama' => $item->guruMatpel->mata_pelajaran->nama_matpel,
                     'ratarata' => ($total2 / $jml2)
                 ];
-            }else{
+            } else {
                 $nilai_ketrampilan[] = [
                     'matpel_id' => $matpel_id,
                     'matpel_nama' => $item->guruMatpel->mata_pelajaran->nama_matpel,
@@ -150,7 +156,10 @@ class CetakController extends Controller
 
         // $matpel = ::all();
         // dd($nilai_ketrampilan);
-        $pdf = PDF::loadView('pages.prints.nilai_raport', compact('siswa', 'nilai_pengetahuan','nilai_ketrampilan','catatan', 'prestasi', 'ketidakhadiran', 'nilai_sikap_spiritual', 'nilai_sikap_sosial', 'nilai_ekstra', 'tahun_ajaran', 'kelas'));
+        $tglNow = Carbon::now()->isoFormat('D MMMM Y');
+        $guru = Guru::find(Auth::user()->guru->id);
+        // $kepalaSekolah = TahunAjaran->where('')
+        $pdf = PDF::loadView('pages.prints.nilai_raport', compact('siswa','guru','tglNow', 'nilai_pengetahuan', 'nilai_ketrampilan', 'catatan', 'prestasi', 'ketidakhadiran', 'nilai_sikap_spiritual', 'nilai_sikap_sosial', 'nilai_ekstra', 'tahun_ajaran', 'kelas'));
         return $pdf->stream('Nilai Raport.pdf');
     }
 }
