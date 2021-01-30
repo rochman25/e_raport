@@ -9,6 +9,7 @@ use App\Models\KompetensiDasar;
 use App\Models\MataPelajaran;
 use App\Models\NilaiSiswa;
 use App\Models\Pivot\GuruMatpel;
+use App\Models\Pivot\GuruMatpelKelas;
 use App\Models\Pivot\KelasSiswa;
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
@@ -27,17 +28,21 @@ class NilaiSiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // dd(Auth::user()->guru);
+        $matpel_id = $request->matpel_id;
         $guru_id = Auth::user()->guru->id ?? "";
-        $guruMatpel = GuruMatpel::with(['kelas'])->when($guru_id, function ($query, $guru_id) {
-            return $query->where('guru_id', $guru_id);
-        })->get();
+        $guruMatpel = GuruMatpelKelas::whereHas('guruMatpel',function(Builder $query)use($guru_id){
+            $query->where('guru_id',$guru_id);
+        })->whereHas('guruMatpel',function(Builder $query)use($matpel_id){
+            $query->where('matpel_id',$matpel_id);
+        })->with(['guruMatpel.mata_pelajaran','kelas_'])->get();
+        $matpel = GuruMatpel::where('guru_id',$guru_id)->get();
         // dd($guruMatpel->toArray());
         $tahun_ajaran = TahunAjaran::all();
         $siswa = Siswa::paginate(10);
-        return view('pages.nilai_siswa.index', compact('guruMatpel', 'tahun_ajaran', 'siswa'));
+        return view('pages.nilai_siswa.index', compact('matpel','guruMatpel', 'tahun_ajaran', 'siswa'));
     }
 
     public function ekstra_view(Request $request){
@@ -323,7 +328,11 @@ class NilaiSiswaController extends Controller
         $matpel = MataPelajaran::all();
         $kelas = KelasSiswa::where('siswa_id',$id)->get();
         $tahun_ajaran = TahunAjaran::all();
-        $nilai_siswa = DetailNilai::where('siswa_id', $id);
+        $nilai_siswa = DetailNilai::where('siswa_id', $id)
+                        ->with(['nilai.kelas','nilai.guru_matpel.mata_pelajaran'])
+                        ->whereHas('nilai',function (Builder $query){
+                            $query->where('jenis_nilai','<>','eks');
+                        });
         if($kelas_id){
             $nilai_siswa->whereHas('nilai.kelas', function (Builder $query) use ($kelas_id) {
                 $query->where('id', $kelas_id);

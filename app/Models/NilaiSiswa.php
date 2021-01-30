@@ -21,4 +21,12 @@ class NilaiSiswa extends Model
         return $this->belongsTo(Kelas::class,'kelas_id');
     }
 
+    public function detail_nilai(){
+        return $this->hasMany(DetailNilai::class,'nilai_id');
+    }
+
+    public function ekstra(){
+        return $this->belongsTo(Ekstrakurikuler::class,'ekstra_id');
+    }
+
 }

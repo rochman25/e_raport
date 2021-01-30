@@ -105,10 +105,10 @@
                         @forelse ($nilai_siswa as $index => $item)
                             <tr>
                                 <td>{{ ++$index }}</td>
-                                <td>{{ $item->nilai->guru_matpel->mata_pelajaran->nama_matpel }}</td>
-                                <td>{{ $item->nilai->kelas->nama_kelas }}</td>
+                                <td>{{ $item->nilai->guru_matpel->mata_pelajaran->nama_matpel ?? "" }}</td>
+                                <td>{{ $item->nilai->kelas->nama_kelas ?? "" }}</td>
                                 <td>{{ $item->nilai->tipe_nilai."/".$item->nilai->jenis_nilai }}</td>
-                                <td>{{ $item->nilai_angka }}</td>
+                                <td>{{ $item->nilai_angka ?? "" }}</td>
                             </tr>
                         @empty
                             <tr>

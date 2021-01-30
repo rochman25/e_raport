@@ -103,7 +103,7 @@
                                     <td>{{ $walikelas->kelas->nama_kelas }}</td>
                                     <td>{{ $walikelas->tahun_ajaran->tahun }}</td>
                                     <td>
-                                        <a href="{{ route('detail.nilai_siswa', $item['siswa']['id']) }}"
+                                        <a href="{{ route('print.raport',['id' => $item['siswa']['id'],'kelas_id'=>request()->get('kelas_id'),'tahun_ajaran_id'=>request()->get('tahun_ajaran_id')]) }}"
                                             class="btn btn-success btn-sm"><i class="mdi mdi-printer"></i> Cetak Raport</a>
                                         {{-- <button data-siswaid="{{ $item->siswa_id }}"
                                             data-kelasid="{{ $item->kelas_id }}" data-tahunajaranid={{ $item->tahun_ajaran_id }}

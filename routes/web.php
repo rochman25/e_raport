@@ -185,4 +185,5 @@ Route::middleware(['auth'])->group(function () {
     //cetak
     Route::get('cetak_raport',[CetakController::class,'view_raport_data'])->name('view.cetak_raport');
     Route::get('cetak_leger',[CetakController::class,'view_leger_data'])->name('view.cetak_leger');
+    Route::get('cetak_raport/print',[CetakController::class,'cetak_raport'])->name('print.raport');
 });

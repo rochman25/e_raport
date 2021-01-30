@@ -37,8 +37,8 @@
                                         <label for="exampleInputUsername1">Mata Pelajaran</label>
                                         <select id="matpel_id" name="matpel_id" class="form-control">
                                             <option value="">-- Pilih Mata Pelajaran --</option>
-                                            @foreach ($guruMatpel as $item)
-                                                <option value="{{ $item->mata_pelajaran->id }}" @if (request()->get('matpel_id') == $item->id) selected
+                                            @foreach ($matpel as $item)
+                                                <option value="{{ $item->mata_pelajaran->id }}" @if (request()->get('matpel_id') == $item->mata_pelajaran->id) selected
                                             @endif>
                                             {{ $item->mata_pelajaran->nama_matpel }}
                                             </option>
@@ -122,7 +122,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($guruMatpel[0]->kelas as $index => $item)
+                            @forelse ($guruMatpel as $index => $item)
                                 <tr>
                                     <td>{{ ++$index }}</td>
                                     <td>{{ $item->kelas_->nama_kelas }}</td>
@@ -130,7 +130,7 @@
                                     <td>{{ $item->guruMatpel->tahun_ajaran->tahun }}</td>
                                     <td>
                                         <a
-                                            href="{{ route('view.nilai_siswa.edit', [$guruMatpel[0]->id,"kelas" => $item->kelas_id]) }}"
+                                            href="{{ route('view.nilai_siswa.edit', [$item->guru_matpel_id,"kelas" => $item->kelas_id]) }}"
                                             class="btn btn-success btn-sm">Nilai</a>
                                         {{-- <button data-siswaid="{{ $item->id }}" data-kelasid="{{ $item->kelas_id }}"
                                             data-tahunajaranid={{ $item->tahun_ajaran_id }}
