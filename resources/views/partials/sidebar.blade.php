@@ -87,7 +87,7 @@
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> <a class="nav-link" href="{{ route('view.cetak_raport') }}">Cetak Raport</a>
                             </li>
-                            <li class="nav-item"> <a class="nav-link" href="{{ route('view.cetak_leger') }}">Cetak Leger</a>
+                            <li class="nav-item"> <a class="nav-link" href="{{ route('view.cetak_leger') }}">Export Leger</a>
                             </li>
                         </ul>
                     </div>

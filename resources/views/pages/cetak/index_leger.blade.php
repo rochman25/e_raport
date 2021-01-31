@@ -4,7 +4,7 @@
         <h3 class="page-title">
             <span class="page-title-icon bg-gradient-primary text-white mr-2">
                 <i class="mdi mdi-note"></i>
-            </span> Cetak Leger
+            </span> Export Leger
         </h3>
     </div>
     <div class="row">
@@ -75,8 +75,8 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <a href="" class="btn btn-info btn-sm"><i class="mdi mdi-printer"></i> Cetak Leger Pengetahuan dan Ketrampilan</a>
-                            <a href="" class="btn btn-info btn-sm"><i class="mdi mdi-printer"></i> Cetak Leger Absensi dan Ekstrakurikuler</a>
+                            <a href="{{ route('export.leger',['kelas_id'=>request()->get('kelas_id'),'tahun_ajaran_id'=>request()->get('tahun_ajaran_id')]) }}" class="btn btn-info btn-sm"><i class="mdi mdi-file-excel"></i> Export Leger</a>
+                            {{-- <a href="" class="btn btn-info btn-sm"><i class="mdi mdi-printer"></i> Cetak Leger Absensi dan Ekstrakurikuler</a> --}}
                         </div>
                     </div>
                     

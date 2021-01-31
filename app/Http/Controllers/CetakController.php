@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LegerExport;
 use App\Models\CatatanWalikelas;
 use App\Models\DetailNilai;
 use App\Models\Guru;
@@ -20,6 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CetakController extends Controller
 {
@@ -162,4 +164,13 @@ class CetakController extends Controller
         $pdf = PDF::loadView('pages.prints.nilai_raport', compact('siswa','guru','tglNow', 'nilai_pengetahuan', 'nilai_ketrampilan', 'catatan', 'prestasi', 'ketidakhadiran', 'nilai_sikap_spiritual', 'nilai_sikap_sosial', 'nilai_ekstra', 'tahun_ajaran', 'kelas'));
         return $pdf->stream('Nilai Raport.pdf');
     }
+
+    public function cetak_leger(Request $request)
+    {
+        $kelas_id = $request->kelas_id;
+        $tahun_ajaran_id = $request->tahun_ajaran_id;
+        $kelas = Kelas::find($kelas_id);
+        return Excel::download(new LegerExport($kelas_id,$tahun_ajaran_id), 'Leger_'.$kelas->kode_kelas.'.xlsx');
+    }
+
 }
