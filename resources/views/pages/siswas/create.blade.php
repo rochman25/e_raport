@@ -42,7 +42,7 @@
                                     <label for="nama">Nama Lengkap</label>
                                     <input type="text" name="nama_lengkap" class="form-control" id="nama"
                                         placeholder="Masukkan Nama Siswa" value="{{ old('nama_lengkap') }}">
-                                    @error('nama_lengkap')
+                                    @error('nam->nullable(true)a_lengkap')
                                         <label id="nameError" class="error mt-2 text-danger" for="nama">{{ $message }}</label>
                                     @enderror
                                 </div>
@@ -124,7 +124,7 @@
                             <div class="col-md-6">
                                 <div class="form-group @error('alamat') has-danger @enderror">
                                     <label for="alamat">Alamat</label>
-                                    <textarea name="alamat" class="form-control" rows=4>{{ old('alamat') }}</textarea>
+                                    <textarea placeholder="Masukkan Alamat Siswa"  name="alamat" class="form-control" rows=4>{{ old('alamat') }}</textarea>
                                     @error('alamat')
                                         <label id="nameError" class="error mt-2 text-danger" for="alamat">{{ $message }}</label>
                                     @enderror
@@ -132,6 +132,83 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="card-title">Form Orang Tua</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form group @error('nama_ayah') has-danger @enderror">
+                                    <label for="nama_ayah">Nama Ayah</label>
+                                    <input type="text" name="nama_ayah" class="form-control" id="nama_ayah"
+                                        placeholder="Masukkan Nama Ayah Siswa" value="{{ old('nama_ayah') }}">
+                                    @error('nama_ayah')
+                                        <label id="nameError" class="error mt-2 text-danger"
+                                            for="nama_ayah">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form group @error('nama_ibu') has-danger @enderror">
+                                    <label for="nama_ibu">Nama Ibu</label>
+                                    <input type="text" name="nama_ibu" class="form-control" id="nama_ibu"
+                                        placeholder="Masukkan Nama Ibu Siswa" value="{{ old('nama_ibu') }}">
+                                    @error('nama_ibu')
+                                        <label id="nameError" class="error mt-2 text-danger"
+                                            for="nama_ibu">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form group @error('pekerjaan_ayah') has-danger @enderror">
+                                    <label for="pekerjaan_ayah">Pekerjaan Ayah</label>
+                                    <input type="text" name="pekerjaan_ayah" class="form-control" id="pekerjaan_ayah"
+                                        placeholder="Masukkan Nama Ayah Siswa" value="{{ old('pekerjaan_ayah') }}">
+                                    @error('pekerjaan_ayah')
+                                        <label id="nameError" class="error mt-2 text-danger"
+                                            for="pekerjaan_ayah">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form group @error('pekerjaan_ibu') has-danger @enderror">
+                                    <label for="pekerjaan_ibu">Pekerjaan Ibu</label>
+                                    <input type="text" name="pekerjaan_ibu" class="form-control" id="pekerjaan_ibu"
+                                        placeholder="Masukkan Pekerjaan Ibu Siswa" value="{{ old('pekerjaan_ibu') }}">
+                                    @error('pekerjaan_ibu')
+                                        <label id="nameError" class="error mt-2 text-danger"
+                                            for="pekerjaan_ibu">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form group @error('no_telphone_ortu') has-danger @enderror">
+                                    <label for="no_telphone_ortu">No Telphone Orang Tua</label>
+                                    <input type="text" name="no_telphone_ortu" class="form-control" id="no_telphone_ortu"
+                                        placeholder="Masukkan Nomor Telphone Orang Tua Siswa" value="{{ old('no_telphone_ortu') }}">
+                                    @error('no_telphone_ortu')
+                                        <label id="nameError" class="error mt-2 text-danger"
+                                            for="no_telphone_ortu">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form group @error('alamat_ortu') has-danger @enderror">
+                                    <label for="alamat_ortu">Alamat Orang Tua</label>
+                                    <textarea type="text" name="alamat_ortu" class="form-control" id="alamat_ortu"
+                                        placeholder="Masukkan Alamat Orang Tua Siswa" rows=4>{{ old('alamat_ortu') }}</textarea>
+                                    @error('alamat_ortu')
+                                        <label id="nameError" class="error mt-2 text-danger"
+                                            for="alamat_ortu">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-gradient-primary mr-2">Simpan</button>
                                 <button type="reset" class="btn btn-light">Reset</button>

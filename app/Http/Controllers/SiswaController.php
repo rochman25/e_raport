@@ -96,7 +96,7 @@ class SiswaController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            Siswa::where('id',$id)->update($request->only(['nis','nama_lengkap','nama_panggilan','dob','pob','jk','agama','alamat']));
+            Siswa::where('id',$id)->update($request->only(['nis','nama_lengkap','nama_panggilan','dob','pob','jk','agama','alamat','nama_ayah','nama_ibu','pekerjaan_ayah','pekerjaan_ibu','alamat_ortu','no_telphone_ortu']));
             DB::commit();
             return redirect()->route('view.siswa')
                 ->with('success', 'Data Berhasil disimpan');
