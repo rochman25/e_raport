@@ -60,6 +60,22 @@ class CetakController extends Controller
         return view('pages.cetak.index_leger', compact('kelas', 'tahun_ajaran', 'siswa', 'walikelas'));
     }
 
+    public function view_cover_raport_data(Request $request)
+    {
+        $tahun_ajaran = TahunAjaran::all();
+        $tahun_ajaran_id = TahunAjaran::where('active', '1')->first()->id;
+        $kelas = WaliKelas::with('kelas', 'tahun_ajaran')->where('tahun_ajaran_id', $tahun_ajaran_id)->where('guru_id', Auth::user()->guru->id)->get();
+        $kelas_id = $request->kelas_id;
+        $tahun_ajaran_id = $request->tahun_ajaran_id;
+        $id = Auth::user()->guru->id;
+        $walikelas = WaliKelas::with('kelas')->where('tahun_ajaran_id', $tahun_ajaran_id)->where('kelas_id', $kelas_id)->where('guru_id', $id)->first();
+        $siswa = [];
+        if ($walikelas != null) {
+            $siswa = KelasSiswa::with('siswa')->where('kelas_id', $walikelas->kelas_id)->paginate(10);
+        }
+        return view('pages.cetak.index_cover_raport', compact('kelas', 'tahun_ajaran', 'siswa', 'walikelas'));
+    }
+
     public function cetak_raport(Request $request)
     {
         setlocale(LC_TIME, 'id_ID');
@@ -163,6 +179,19 @@ class CetakController extends Controller
         // $kepalaSekolah = TahunAjaran->where('')
         $pdf = PDF::loadView('pages.prints.nilai_raport', compact('siswa','guru','tglNow', 'nilai_pengetahuan', 'nilai_ketrampilan', 'catatan', 'prestasi', 'ketidakhadiran', 'nilai_sikap_spiritual', 'nilai_sikap_sosial', 'nilai_ekstra', 'tahun_ajaran', 'kelas'));
         return $pdf->stream('Nilai Raport.pdf');
+    }
+
+    public function cetak_cover_raport(Request $request)
+    {
+        setlocale(LC_TIME, 'id_ID');
+        \Carbon\Carbon::setLocale('id');
+        \Carbon\Carbon::now()->formatLocalized("%A, %d %B %Y");
+        $tahun_ajaran = TahunAjaran::find($request->tahun_ajaran_id);
+        $siswa = Siswa::find($request->id);
+        $tglLahir = Carbon::parse($siswa->dob)->isoFormat('D MMMM Y');
+        $tglNow = Carbon::now()->isoFormat('D MMMM Y');
+        $pdf = PDF::loadView('pages.prints.cover_raport', compact('siswa','tglLahir','tahun_ajaran','tglNow'));
+        return $pdf->stream('Cover_Raport '.$siswa->nis.'_'.str_replace(" ","_",$siswa->nama_lengkap).'.pdf');
     }
 
     public function cetak_leger(Request $request)

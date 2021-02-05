@@ -187,7 +187,9 @@ Route::middleware(['auth'])->group(function () {
 
     //cetak
     Route::get('cetak_raport',[CetakController::class,'view_raport_data'])->name('view.cetak_raport');
+    Route::get('cover_raport',[CetakController::class,'view_cover_raport_data'])->name('view.cetak_cover_raport');
     Route::get('cetak_leger',[CetakController::class,'view_leger_data'])->name('view.cetak_leger');
     Route::get('cetak_raport/print',[CetakController::class,'cetak_raport'])->name('print.raport');
+    Route::get('cetak_cover_raport/print',[CetakController::class,'cetak_cover_raport'])->name('print.cover_raport');
     Route::get('export_leger',[CetakController::class,'cetak_leger'])->name('export.leger');
 });

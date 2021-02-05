@@ -122,6 +122,9 @@
                 </a>
                 <div class="collapse" id="ui-cetak">
                     <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('view.cetak_cover_raport') }}">Cetak
+                            Cover Raport</a>
+                        </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('view.cetak_raport') }}">Cetak
                                 Raport</a>
                         </li>
