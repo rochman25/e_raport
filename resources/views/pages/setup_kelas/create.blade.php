@@ -106,7 +106,8 @@
                 moveOnSelect: false,
                 iconsPrefix: 'mdi',
                 iconMove: '>',
-                iconRemove: '<'
+                iconRemove: '<',
+                filterPlaceHolder: "Cari Data"
             });
         })(window, document, jQuery);
 

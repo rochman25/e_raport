@@ -42,8 +42,7 @@
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    {{-- <script src="{{ asset('assets/vendors/chart.js/Chart.min.js') }}"></script>
-    --}}
+    {{-- <script src="{{ asset('assets/vendors/chart.js/Chart.min.js') }}"></script> --}}
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
@@ -51,11 +50,33 @@
     <script src="{{ asset('assets/js/misc.js') }}"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
-    {{-- <script src="{{ asset('assets/js/dashboard.js') }}"></script>
-    --}}
-    {{-- <script src="{{ asset('assets/js/todolist.js') }}"></script>
-    --}}
+    {{-- <script src="{{ asset('assets/js/dashboard.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/todolist.js') }}"></script> --}}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        $('#role_change').on('change', function() {
+            // alert($(this).val())
+            var url = "{{ route('auth.change_role') }}"
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    role_name:$(this).val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log(response)
+                        // swal("Sukses!", "Data berhasil dihapus", "success");
+                        setTimeout(location.reload.bind(location), 500);
+                    } else {
+                        swal("Error", "Maaf terjadi kesalahan", "error");
+                    }
+                }
+            });
+        });
+
+    </script>
     @stack('scripts')
 </body>
 

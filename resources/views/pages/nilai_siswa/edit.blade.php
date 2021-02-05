@@ -82,7 +82,7 @@
                                             @foreach ($kds as $item)
                                                 <option value="{{ $item->id }}" @if (request()->get('kd_id') == $item->id) selected
                                             @endif>
-                                            {{ $item->kode_kd }}
+                                            {{ $item->kode_kd." - ".$item->matpel->nama_matpel }}
                                             </option>
                                             @endforeach
                                         </select>

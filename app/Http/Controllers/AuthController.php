@@ -38,8 +38,20 @@ class AuthController extends Controller
         }
     }
 
-    public function logout(){
+    public function changeRole(Request $request){
+        $role = $request->role_name;
+        try {
+            $request->session()->put('role',$role);
+            $success = true;         
+            return response()->json(['success'=>$success,'role'=>$request->session('role')]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false,'errors' => $e]);
+        }
+    }
+
+    public function logout(Request $request){
         Auth::logout();
+        $request->session()->forget('role');
         return redirect()->route('auth.login');
     }
 

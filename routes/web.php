@@ -47,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
     //dashboard
     Route::get('/home', [HomeController::class, 'index'])->name('view.home');
 
+    //change role
+    Route::post('/change_role',[AuthController::class,'changeRole'])->name('auth.change_role');
+
     //system
     //roles
     Route::get('/roles', [RoleController::class, 'index'])->name('view.role');

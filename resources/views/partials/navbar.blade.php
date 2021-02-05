@@ -1,9 +1,9 @@
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="{{ route('view.home') }}"><img style="width:50px;height:50px" src="{{ asset('assets/images/logo.png') }}"
-                alt="logo" /></a>
-        <a class="navbar-brand brand-logo-mini" href="{{ route('view.home') }}"><img src="{{ asset('assets/images/logo.png') }}"
-                alt="logo" /></a>
+        <a class="navbar-brand brand-logo" href="{{ route('view.home') }}"><img style="width:50px;height:50px"
+                src="{{ asset('assets/images/logo.png') }}" alt="logo" /></a>
+        <a class="navbar-brand brand-logo-mini" href="{{ route('view.home') }}"><img
+                src="{{ asset('assets/images/logo.png') }}" alt="logo" /></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-stretch">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -14,6 +14,21 @@
                 <a class="nav-link">
                     <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
                 </a>
+            </li>
+            <li class="nav-item">
+                <select name="role_name" id="role_change" class="form-control">
+                    @if($s_role == "guru")
+                        <option value="{{ $s_role }}">{{ $s_role}}</option>
+                        @if (count($baseRole->user->guru['walikelas']) > 0)
+                            <option value="walikelas">walikelas</option>
+                        @endif
+                    @elseif($s_role == "walikelas")
+                        <option value="{{ $s_role }}">{{ $s_role}}</option>
+                        <option value="{{ "guru" }}">{{ "guru" }}</option>
+                    @else
+                        <option value="{{ $s_role }}">{{ $s_role}}</option>
+                    @endif
+                </select>
             </li>
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown"
@@ -34,6 +49,7 @@
                         <i class="mdi mdi-logout mr-2 text-primary"></i> Signout </a>
                 </div>
             </li>
+            
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-toggle="offcanvas">
