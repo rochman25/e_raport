@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\NilaiSiswaExport;
 use App\Models\DetailNilai;
 use App\Models\Ekstrakurikuler;
 use App\Models\Kelas;
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class NilaiSiswaController extends Controller
 {
@@ -349,4 +351,26 @@ class NilaiSiswaController extends Controller
         // dd($nilai_siswa);
         return view('pages.nilai_siswa.detail', compact('nilai_siswa', 'matpel', 'kelas', 'tahun_ajaran'));
     }
+
+    public function viewImport(Request $request,$id){
+        $nilai_siswa = "";
+        $kelas = $request->kelas_id;
+        $tipe_nilai = $request->tipe_nilai;
+        $jenis_nilai = $request->jenis_nilai;
+        $kd_id = $request->kd_id;
+        $format = $request->format;
+        if($format == "download"){
+            return Excel::download(new NilaiSiswaExport($id,$kelas,$tipe_nilai,$jenis_nilai,$kd_id), 'Import_Format.xlsx');
+        }
+        return view('pages.nilai_siswa.import',compact('nilai_siswa','id'));
+    }
+
+    public function storeImport(Request $request,$id){
+        //get import data excel and save to session and preview it
+    }
+
+    public function saveImport(Request $request,$id){
+        // get session data and save it to db
+    }
+
 }

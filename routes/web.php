@@ -147,6 +147,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('nilai_siswa/delete', [NilaiSiswaController::class, 'destroy'])->name('delete.nilai_siswa');
     Route::get('nilai_siswa/{id}/print',[NilaiSiswaController::class, 'createPDF'])->name('print.nilai_siswa');
     Route::get('nilai_siswa/{id}/detail',[NilaiSiswaController::class,'detailNilaiSiswa'])->name('detail.nilai_siswa');
+    Route::get('nilai_siswa/{id}/import',[NilaiSiswaController::class,'viewImport'])->name('view.nilai_siswa.import');
+    Route::post('nilai_siswa/{id}/import/preview',[NilaiSiswaController::class,'storeImport'])->name('import.nilai_siswa');
+    Route::post('nilai_siswa/{id}/import/save',[NilaiSiswaController::class,'saveImport'])->name('import.nilai_siswa.save');
 
     //ekstrakurikuler
     Route::get('ekstrakurikuler', [EkstrakurikulerController::class, 'index'])->name('view.ekstrakurikuler');

@@ -42,10 +42,8 @@
                                         <label for="exampleInputUsername1">Tipe Penilaian</label>
                                         <select id="tipe_nilai" name="tipe_nilai" class="form-control">
                                             <option value="">-- Pilih Tipe Penilaian --</option>
-                                            <option value="P" @if (request()->get('tipe_nilai') == 'P') selected
-                                                @endif>Pengetahuan</option>
-                                            <option value="K" @if (request()->get('tipe_nilai') == 'K') selected
-                                                @endif>Keterampilan</option>
+                                            <option value="P" @if (request()->get('tipe_nilai') == 'P') selected @endif>Pengetahuan</option>
+                                            <option value="K" @if (request()->get('tipe_nilai') == 'K') selected @endif>Keterampilan</option>
                                         </select>
                                         @error('tipe_nilai')
                                             <label class="error mt-2 text-danger">{{ $message }}</label>
@@ -60,11 +58,9 @@
                                         <select id="jenis_nilai" name="jenis_nilai" class="form-control">
                                             <option value="">-- Pilih Jenis Penilaian --</option>
                                             @foreach ($jnspenilaian as $item)
-                                                <option @if (request()->get('jenis_nilai') == $item['id'])
-                                                    selected
-                                            @endif value="{{ $item['id'] }}">
-                                            {{ $item['val'] }}
-                                            </option>
+                                                <option @if (request()->get('jenis_nilai') == $item['id']) selected @endif value="{{ $item['id'] }}">
+                                                    {{ $item['val'] }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         @error('jenis_nilai')
@@ -80,10 +76,9 @@
                                         <select id="kd_idd" name="kd_id" class="form-control">
                                             <option value="">-- Pilih Kompetensi Dasar --</option>
                                             @foreach ($kds as $item)
-                                                <option value="{{ $item->id }}" @if (request()->get('kd_id') == $item->id) selected
-                                            @endif>
-                                            {{ $item->kode_kd." - ".$item->matpel->nama_matpel }}
-                                            </option>
+                                                <option value="{{ $item->id }}" @if (request()->get('kd_id') == $item->id) selected @endif>
+                                                    {{ $item->kode_kd . ' - ' . $item->matpel->nama_matpel }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         @error('kd_id')
@@ -94,11 +89,28 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <a href="{{ route('print.nilai_siswa',[$id,'kelas' => $kelas_id,'tipe_nilai'=>request()->get('tipe_nilai'),'jenis_nilai'=>request()->get('jenis_nilai')]) }}" class="btn btn-success mx-1">Download PDF</a>
-                                    <button type="button" id="cek-nilai" class="btn btn-info" style="float: right">Cek
+                                    <a href="{{ route('print.nilai_siswa', [$id, 'kelas' => $kelas_id, 'tipe_nilai' => request()->get('tipe_nilai'), 'jenis_nilai' => request()->get('jenis_nilai')]) }}"
+                                        class="btn btn-success mx-1"><i class="mdi mdi-download"></i> Download PDF</a>
+                                    <button type="button" id="cek-nilai" class="btn btn-info" style="float: right"><i
+                                            class="mdi mdi-check"></i> Cek
                                         Nilai</button>
                                 </div>
                             </div>
+                            @if (request()->tipe_nilai != null && request()->jenis_nilai != null)
+                                <div class="row" style="margin-top:20px">
+                                    <div class="col">
+                                        @if (request()->get('kd_id'))
+                                            <a href="{{ route('view.nilai_siswa.import', [$id, 'kelas_id' => $kelas_id, 'tipe_nilai' => request()->get('tipe_nilai'), 'jenis_nilai' => request()->get('jenis_nilai'),'kd_id' => request()->get('kd_id')]) }}"
+                                                class="btn btn-secondary mx-1"><i class="mdi mdi-import"></i> Import
+                                                Nilai</a>
+                                        @else
+                                            <a href="{{ route('view.nilai_siswa.import', [$id, 'kelas_id' => $kelas_id, 'tipe_nilai' => request()->get('tipe_nilai'), 'jenis_nilai' => request()->get('jenis_nilai')]) }}"
+                                                class="btn btn-secondary mx-1"><i class="mdi mdi-import"></i> Import
+                                                Nilai</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endif
                             <div class="row">
                                 <div class="col">
                                     <table class="table table-hover">
@@ -165,9 +177,9 @@
                 var tipe_nilai = $("#tipe_nilai").val();
                 var kd_id = $("#kd_idd").val();
                 var cek = false;
-                if(jenis_nilai == "kd"){
+                if (jenis_nilai == "kd") {
                     $('#kd_id').show()
-                }else{
+                } else {
                     $('#kd_id').hide()
                 }
                 $('#jenis_nilai').change(function(e) {
@@ -182,7 +194,7 @@
                 $('#tipe_nilai').change(function(e) {
                     tipe_nilai = $(this).val();
                 })
-                $('#kd_idd').change(function(e){
+                $('#kd_idd').change(function(e) {
                     kd_id = $(this).val()
                 });
                 $('#cek-nilai').click(function() {
@@ -207,20 +219,22 @@
 
                     if (cek) {
                         var url = ""
-                        if(kd_id == ""){
-                            url = '{{ route("view.nilai_siswa.edit",[$id,"kelas" => $kelas_id,"tipe_nilai"=>":tipe_nilai","jenis_nilai"=>":jenis_nilai"]) }}';
-                            url = url.replace('%3Atipe_nilai',tipe_nilai)
-                            url = url.replace('%3Ajenis_nilai',jenis_nilai)
-                            url = url.replace('amp;','')
-                            url = url.replace('amp;','')
-                        }else{
-                            url = '{{ route("view.nilai_siswa.edit",[$id,"kelas" => $kelas_id,"tipe_nilai"=>":tipe_nilai","jenis_nilai"=>":jenis_nilai","kd_id"=>":kd_id"]) }}';
-                            url = url.replace('%3Atipe_nilai',tipe_nilai)
-                            url = url.replace('%3Ajenis_nilai',jenis_nilai)
-                            url = url.replace('%3Akd_id',kd_id)
-                            url = url.replace('amp;','')
-                            url = url.replace('amp;','')
-                            url = url.replace('amp;','')
+                        if (kd_id == "") {
+                            url =
+                                '{{ route('view.nilai_siswa.edit', [$id, 'kelas' => $kelas_id, 'tipe_nilai' => ':tipe_nilai', 'jenis_nilai' => ':jenis_nilai']) }}';
+                            url = url.replace('%3Atipe_nilai', tipe_nilai)
+                            url = url.replace('%3Ajenis_nilai', jenis_nilai)
+                            url = url.replace('amp;', '')
+                            url = url.replace('amp;', '')
+                        } else {
+                            url =
+                                '{{ route('view.nilai_siswa.edit', [$id, 'kelas' => $kelas_id, 'tipe_nilai' => ':tipe_nilai', 'jenis_nilai' => ':jenis_nilai', 'kd_id' => ':kd_id']) }}';
+                            url = url.replace('%3Atipe_nilai', tipe_nilai)
+                            url = url.replace('%3Ajenis_nilai', jenis_nilai)
+                            url = url.replace('%3Akd_id', kd_id)
+                            url = url.replace('amp;', '')
+                            url = url.replace('amp;', '')
+                            url = url.replace('amp;', '')
                         }
                         // + "&tipe_nilai=" + tipe_nilai + "&jenis_nilai=" +
                         //     jenis_nilai;
