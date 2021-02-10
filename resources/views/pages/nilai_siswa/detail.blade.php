@@ -11,6 +11,28 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
+                <div class="row">
+                    <div class="col-1">
+                        Nama Lengkap
+                    </div>
+                    <div class="col-1">
+                        :
+                    </div>
+                    <div class="col-1">
+                        {{ $siswa->nama_lengkap }}
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-1">
+                        NIS
+                    </div>
+                    <div class="col-1">
+                        :
+                    </div>
+                    <div class="col-1">
+                        {{ $siswa->nis }}
+                    </div>
+                </div>
                 <form action="" method="GET">
                     @csrf
                     <div class="row">
@@ -20,7 +42,7 @@
                                 <select name="kelas_id" class="form-control">
                                     <option value="">-- Pilih Kelas --</option>
                                     @foreach ($kelas as $item)
-                                        <option value="{{ $item->kelas->id }}" @if (request()->get('kelas_id') == $item->id) selected
+                                        <option value="{{ $item->kelas->id }}" @if (request()->get('kelas_id') == $item->kelas->id) selected
                                     @endif>
                                     {{ $item->kelas->nama_kelas }}
                                     </option>
@@ -31,16 +53,16 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-4">
+                        {{-- <div class="col-4">
                             <div class="col">
                                 <div class="form-group @error('matpel_id') has-danger @enderror">
                                     <label for="exampleInputUsername1">Mata Pelajaran</label>
                                     <select id="matpel_id" name="matpel_id" class="form-control">
                                         <option value="">-- Pilih Mata Pelajaran --</option>
                                         @foreach ($matpel as $item)
-                                            <option value="{{ $item->id }}" @if (request()->get('matpel_id') == $item->id) selected
+                                            <option value="{{ $item->guruMatpel->mata_pelajaran->id }}" @if (request()->get('matpel_id') == $item->guruMatpel->mata_pelajaran->id) selected
                                         @endif>
-                                        {{ $item->nama_matpel }}
+                                        {{ $item->guruMatpel->mata_pelajaran->nama_matpel }}
                                         </option>
                                         @endforeach
                                     </select>
@@ -49,7 +71,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         {{-- <div class="col-4">
                             <div class="form-group @error('tahun_ajaran_id') has-danger @enderror">
                                 <label for="exampleInputUsername1">Tahun Ajaran</label>
@@ -97,18 +119,22 @@
                             <th>No</th>
                             <th>Mata Pelajaran</th>
                             <th>Kelas</th>
-                            <th>Kategori Penilaian</th>
-                            <th>Nilai</th>
+                            <th>UTS</th>
+                            <th>UAS</th>
+                            <th>Kompetensi Dasar</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($nilai_siswa as $index => $item)
+                        @forelse ($matpel as $index => $item)
                             <tr>
                                 <td>{{ ++$index }}</td>
-                                <td>{{ $item->nilai->guru_matpel->mata_pelajaran->nama_matpel ?? "" }}</td>
-                                <td>{{ $item->nilai->kelas->nama_kelas ?? "" }}</td>
-                                <td>{{ $item->nilai->tipe_nilai."/".$item->nilai->jenis_nilai }}</td>
-                                <td>{{ $item->nilai_angka ?? "" }}</td>
+                                <td>{{ $item->guruMatpel->mata_pelajaran->nama_matpel ?? "" }}</td>
+                                <td>{{ $item->kelas_->nama_kelas ?? "" }}</td>
+                                <td>{{ $item->uts }}</td>
+                                <td>{{ $item->uas }}</td>
+                                <td>{{ $item->kd }}</td>
+                                {{-- <td>{{ $item->tipe_nilai."/".$item->jenis_nilai }}</td> --}}
+                                {{-- <td>{{ $item_angka ?? "" }}</td> --}}
                             </tr>
                         @empty
                             <tr>
@@ -117,11 +143,11 @@
                         @endforelse
                     </tbody>
                 </table>
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col mt-5">
                         {{ $nilai_siswa->links('vendor.pagination.custom') }}
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

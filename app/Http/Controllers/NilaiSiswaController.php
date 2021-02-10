@@ -174,7 +174,7 @@ class NilaiSiswaController extends Controller
     {
         //
         $guruMatpel = GuruMatpel::find($id);
-        $kds = KompetensiDasar::where('matpel_id',$guruMatpel->matpel_id)->get();
+        $kds = KompetensiDasar::where('matpel_id', $guruMatpel->matpel_id)->get();
         // $jnspenilaian = ["uas","uts","kd"];
         $jnspenilaian = [
             [
@@ -329,9 +329,10 @@ class NilaiSiswaController extends Controller
     {
         $kelas_id = $request->kelas_id;
         $matpel_id = $request->matpel_id;
-        $matpel = MataPelajaran::all();
+        // $matpel = MataPelajaran::all();
         $kelas = KelasSiswa::where('siswa_id', $id)->get();
         $tahun_ajaran = TahunAjaran::all();
+        $matpel = GuruMatpelKelas::where('kelas_id', $kelas_id)->get();
         $nilai_siswa = DetailNilai::where('siswa_id', $id)
             ->with(['nilai.kelas', 'nilai.guru_matpel.mata_pelajaran'])
             ->whereHas('nilai', function (Builder $query) {
@@ -349,9 +350,44 @@ class NilaiSiswaController extends Controller
             })->get();
         }
 
-        $nilai_siswa = $nilai_siswa->paginate(10);
+        $nilai_siswa = $nilai_siswa->get();
+        foreach ($matpel as $index_m => $item_m) {
+            $uts = 0;
+            $cUts = 0;
+            $uas = 0;
+            $cUas = 0;
+            $kd = 0;
+            $cKd = 0;
+            foreach ($nilai_siswa as $index => $item) {
+                // dd($item->nilai);
+                // dd($item_m);
+                if($item->nilai->jenis_nilai == "uts" && $item_m->guru_matpel_id == $item->nilai->guru_matpel_id){
+                    // dd($item->nilai);
+                    $uts += $item->nilai_angka;
+                    $cUts += 1;
+                }
+                
+                if($item->nilai->jenis_nilai == "uas" && $item_m->guru_matpel_id == $item->nilai->guru_matpel_id){
+                    // dd($item);
+                    $uas += $item->nilai_angka;
+                    $cUas += 1;
+                }
+
+                if($item->nilai->jenis_nilai == "kd" && $item_m->guru_matpel_id == $item->nilai->guru_matpel_id){
+                    // dd($item);
+                    $kd += $item->nilai_angka;
+                    $cKd += 1;
+                }
+            }
+            $item_m['uts'] = $cUts > 0 ? $uts / $cUts : 0;
+            $item_m['uas'] = $cUas > 0 ? $uas / $cUas : 0;
+            $item_m['kd'] = $cKd > 0 ? $kd / $cKd : 0;
+        }
+
+        // dd($matpel);
+        $siswa = Siswa::find($id);
         // dd($nilai_siswa);
-        return view('pages.nilai_siswa.detail', compact('nilai_siswa', 'matpel', 'kelas', 'tahun_ajaran'));
+        return view('pages.nilai_siswa.detail', compact('siswa', 'nilai_siswa', 'matpel', 'kelas', 'tahun_ajaran'));
     }
 
     public function viewImport(Request $request, $id)
@@ -389,8 +425,8 @@ class NilaiSiswaController extends Controller
                 ->when($kd_id, function ($query, $kd_id) {
                     return $query->where('kd_id', $kd_id);
                 })->first();
-                
-            if($nilai == null){
+
+            if ($nilai == null) {
                 $nilai = new NilaiSiswa();
                 $nilai->guru_matpel_id = $id;
                 $nilai->kelas_id = $request->kelas_id;
@@ -412,17 +448,17 @@ class NilaiSiswaController extends Controller
             // dd($nilai);
             DB::commit();
             unlink(public_path('/file_nilai_siswa/' . $nama_file));
-            if($kd_id == null){
-                return redirect()->route('view.nilai_siswa.edit',[$id,'kelas'=>$request->kelas_id,'tipe_nilai'=>$request->tipe_nilai,'jenis_nilai'=>$request->jenis_nilai,'kd_id'=>$kd_id])
-                ->with('success', 'Data Berhasil disimpan');
+            if ($kd_id == null) {
+                return redirect()->route('view.nilai_siswa.edit', [$id, 'kelas' => $request->kelas_id, 'tipe_nilai' => $request->tipe_nilai, 'jenis_nilai' => $request->jenis_nilai, 'kd_id' => $kd_id])
+                    ->with('success', 'Data Berhasil disimpan');
             }
-            return redirect()->route('view.nilai_siswa.edit',[$id,'kelas'=>$request->kelas_id,'tipe_nilai'=>$request->tipe_nilai,'jenis_nilai'=>$request->jenis_nilai])
-            ->with('success', 'Data Berhasil disimpan');
+            return redirect()->route('view.nilai_siswa.edit', [$id, 'kelas' => $request->kelas_id, 'tipe_nilai' => $request->tipe_nilai, 'jenis_nilai' => $request->jenis_nilai])
+                ->with('success', 'Data Berhasil disimpan');
         } catch (Exception $e) {
             DB::rollBack();
             dd($e);
             return redirect()->back()
-                    ->with('error', 'Data Gagal disimpan');
+                ->with('error', 'Data Gagal disimpan');
         }
     }
 
