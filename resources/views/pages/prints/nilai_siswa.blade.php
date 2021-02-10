@@ -28,7 +28,7 @@
     </style>
 </head>
 <body>
-    <header>
+    {{-- <header> --}}
         <table style="border:0px;padding:5px 20px;width:auto">
             <tr>
                 <td>Guru </td>
@@ -51,7 +51,7 @@
                 <td>{{ " ".$guru_matpel->tahun_ajaran->tahun }}</td>
             </tr>
         </table>
-    </header>
+    {{-- </header> --}}
     <center><h3 style="padding:5px 20px;">Rekap Nilai {{ $jnspenilaian[array_search(request()->get('jenis_nilai'), array_column($jnspenilaian, 'id'))]['val'] }} Siswa</h3></center>
     <table class='table table-bordered' width="100%">
         <tr>
@@ -70,8 +70,8 @@
             </tr>
         @endforeach
     </table>
-    <footer>
+    {{-- <footer> --}}
         <p><i>Generate Tanggal : {{ date('m/d/Y H:i:s') }} @ {{ config('app.name', 'E - Raport') }} </i></p>
-    </footer>
+    {{-- </footer> --}}
 </body>
 </html>

@@ -29,8 +29,14 @@
                             </div>
                         </div>
 
-                        <form class="forms-sample" action="{{ route('import.nilai_siswa', $id) }}" method="POST">
+                        <form class="forms-sample" action="{{ route('import.nilai_siswa', $id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            <input type="hidden" name="kelas_id" value="{{ request()->get('kelas_id') }}">
+                            <input type="hidden" name="tipe_nilai" value="{{ request()->get('tipe_nilai') }}">
+                            <input type="hidden" name="jenis_nilai" value="{{ request()->get('jenis_nilai') }}">
+                            @if(request()->get('kd_id'))
+                                <input type="hidden" name="kd_id" value="{{ request()->get('kd_id') }}">
+                            @endif
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group @error('file') has-danger @enderror">

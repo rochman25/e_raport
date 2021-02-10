@@ -87,11 +87,11 @@
                         {{ 'C' }}
                     @endif
                 </td>
-                <td style="text-align: center;">{{ $item['nilai_absent']['sakit'] }}</td>
-                <td style="text-align: center;">{{ $item['nilai_absent']['izin'] }}</td>
-                <td style="text-align: center;">{{ $item['nilai_absent']['alpha'] }}</td>
-                <td style="text-align: center;" colspan="2">{{ $item['nilai_ekskul']['ekskul'] }}</td>
-                <td style="text-align: center;" colspan="2">{{ $item['nilai_ekskul']['nilai'] }}</td>
+                <td style="text-align: center;">{{ $item['nilai_absent']['sakit'] ?? "" }}</td>
+                <td style="text-align: center;">{{ $item['nilai_absent']['izin'] ?? "" }}</td>
+                <td style="text-align: center;">{{ $item['nilai_absent']['alpha'] ?? "" }}</td>
+                <td style="text-align: center;" colspan="2">{{ $item['nilai_ekskul']['ekskul'] ?? "" }}</td>
+                <td style="text-align: center;" colspan="2">{{ $item['nilai_ekskul']['nilai'] ?? "" }}</td>
             </tr>
         @endforeach
     </tbody>

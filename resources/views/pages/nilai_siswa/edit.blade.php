@@ -90,7 +90,7 @@
                             <div class="row">
                                 <div class="col">
                                     <a href="{{ route('print.nilai_siswa', [$id, 'kelas' => $kelas_id, 'tipe_nilai' => request()->get('tipe_nilai'), 'jenis_nilai' => request()->get('jenis_nilai')]) }}"
-                                        class="btn btn-success mx-1"><i class="mdi mdi-download"></i> Download PDF</a>
+                                        class="btn btn-success mx-1" target="__blank"><i class="mdi mdi-download"></i> Download PDF</a>
                                     <button type="button" id="cek-nilai" class="btn btn-info" style="float: right"><i
                                             class="mdi mdi-check"></i> Cek
                                         Nilai</button>
@@ -138,11 +138,11 @@
                                                             <td>{{ $item->siswa->nama_lengkap }}</td>
                                                             <td>
                                                                 <input type="hidden" name="id_nilai_siswa[]"
-                                                                    value="{{ !empty($nilai_siswa) ? $nilai_siswa[$index]['id'] : '' }}">
+                                                                    value="{{ !empty($nilai_siswa[$index]['id']) ? $nilai_siswa[$index]['id'] : '' }}">
                                                                 <input type="hidden" class="form-control" name="siswa_id[]"
                                                                     value="{{ $item->siswa->id }}">
                                                                 <input type="number" class="form-control" name="nilai[]"
-                                                                    value="{{ !empty($nilai_siswa) ? ($nilai_siswa[$index]['siswa_id'] == $item->siswa->id ? $nilai_siswa[$index]['nilai_angka'] : '0') : '0' }}">
+                                                                    value="{{ !empty($nilai_siswa[$index]['siswa_id']) ? ($nilai_siswa[$index]['siswa_id'] == $item->siswa->id ? $nilai_siswa[$index]['nilai_angka'] : '0') : '0' }}">
                                                             </td>
                                                         </tr>
                                                     @empty

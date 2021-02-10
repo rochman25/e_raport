@@ -7,6 +7,7 @@ use App\Models\Ekstrakurikuler;
 use App\Models\Kelas;
 use App\Models\KompetensiDasar;
 use App\Models\NilaiSiswa;
+use App\Models\Pivot\GuruMatpel;
 use App\Models\Pivot\KelasSiswa;
 use App\Models\TahunAjaran;
 use Illuminate\Contracts\View\View;
@@ -57,6 +58,9 @@ class NilaiSiswaExport implements FromView
         if ($idNilai == null) {
             $nilai_siswa = [];
             // $siswa = [];
+            $dNilai = NilaiSiswa::latest()->first();
+            $idNilai = $dNilai->id;
+            $idNilai++;
         } else {
             $nilai_siswa = DetailNilai::when($idNilai, function ($query, $idNilai) {
                 return $query->where('nilai_id', $idNilai);
@@ -76,6 +80,7 @@ class NilaiSiswaExport implements FromView
             }
         }
         $tipe_penilaian = "";
+        $guru_matpel = GuruMatpel::find($this->id);
         if($this->tipe_nilai == "P"){
             $tipe_penilaian = "PENGETAHUAN";
         }else if($this->tipe_nilai == "K"){
@@ -85,9 +90,12 @@ class NilaiSiswaExport implements FromView
             'siswa' => $siswa,
             'kd_id' => $kd_id,
             'nilai' => $nilai,
+            'nilai_siswa' => $nilai_siswa,
+            'guru_matpel' => $guru_matpel,
             'kelas' => $kelas,
             'tipe_nilai' => $tipe_penilaian,
-            'jenis_nilai' => $jenis_penilaian
+            'jenis_nilai' => $jenis_penilaian,
+            'id_nilai' => $idNilai
         ]);
     }
 }

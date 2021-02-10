@@ -285,7 +285,7 @@
                 <th width="15%">Predikat</th>
                 <th width="45%">Keterangan</th>
             </tr>
-            @if ($nilai_ekstra)
+            @if (!empty($nilai_ekstra))
                 @foreach ($nilai_ekstra as $index => $item)
                     <tr>
                         <td>
@@ -295,10 +295,10 @@
                             <p style="text-align: center;margin:5px">{{ $item->ekstra->nama_ekstra }}</p>
                         </td>
                         <td>
-                            <p style="text-align: center;margin:5px">{{ $item->detail_nilai[0]['nilai_huruf'] }}</p>
+                            <p style="text-align: center;margin:5px">{{ $item->detail_nilai[0]['nilai_huruf'] ?? "" }}</p>
                         </td>
                         <td>
-                            <p style="text-align: justify;margin:5px">{{ $item->detail_nilai[0]['deskripsi'] }}</p>
+                            <p style="text-align: justify;margin:5px">{{ $item->detail_nilai[0]['deskripsi'] ?? "" }}</p>
                         </td>
                     </tr>
                 @endforeach
