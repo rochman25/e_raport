@@ -42,7 +42,7 @@
                     </div>
                 </a>
                 <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('view.user.profile',Auth::user()->id) }}">
                         <i class="mdi mdi-account mr-2 text-success"></i> Profile </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('auth.logout') }}">

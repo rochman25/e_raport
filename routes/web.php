@@ -64,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('users/{id}/update', [UserController::class, 'update'])->name('update.user');
     Route::post('users/delete', [UserController::class, 'destroy'])->name('delete.user');
     Route::post('users/{id}/reset_password', [UserController::class, 'resetPassword'])->name('reset_password.user');
+    Route::get('users/{id}/profile',[UserController::class,'show'])->name('view.user.profile');
+    Route::post('users/{id}/update_profile',[UserController::class,'update_profile'])->name('update_profile.user');
 
     //master_data
     //tahun ajar

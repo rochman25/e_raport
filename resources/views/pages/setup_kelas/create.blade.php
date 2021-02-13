@@ -66,7 +66,7 @@
                                     <div class="form-group">
                                         <select name="siswa_id[]" multiple="multiple" class="duallistbox-multi-selection">
                                             @foreach ($siswa as $item)
-                                                <option value="{{ $item->id }}">{{ $item->nis . " " . $item->nama_lengkap }}</option>
+                                                <option value="{{ $item->id }}">{{ $item->nis . " - " . $item->nama_lengkap }}</option>
                                             @endforeach
                                         </select>
                                     </div>

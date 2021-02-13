@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -81,6 +82,46 @@ class UserController extends Controller
     public function show($id)
     {
         //
+        $user = User::where('id', $id)->first();
+        return view('pages.users.profile', compact('user'));
+    }
+
+
+    public function update_profile(Request $request, $id)
+    {
+        $request->validate([
+            'username' => 'unique:users,username,' . $id,
+            'email'    => 'nullable|unique:users,email,' . $id,
+            'password' => 'confirmed|min:4'
+        ]);
+
+        $old_password = $request->old_password;
+
+        try {
+            DB::beginTransaction();
+            $user = User::find($id);
+            if ($old_password) {
+                if (Hash::check($old_password, $user->password)) {
+                    $user->password = $request->password;
+                } else {
+                    DB::rollBack();
+                    return redirect()->route('view.user.profile',$id)
+                        ->with('error', 'Password lama tidak sesuai.');
+                }
+            }
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->save();
+            // dd($request);
+            DB::commit();
+            return redirect()->back()
+                ->with('success', 'Data Berhasil disimpan');
+        } catch (Exception $e) {
+            DB::rollBack();
+            // dd($e);
+            return redirect()->back()
+                ->withErrors('error', 'Data Gagal disimpan');
+        }
     }
 
     /**
