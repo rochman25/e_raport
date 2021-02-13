@@ -68,7 +68,7 @@
                     if (response.success) {
                         console.log(response)
                         // swal("Sukses!", "Data berhasil dihapus", "success");
-                        setTimeout(location.reload.bind(location), 500);
+                        setTimeout(location.reload.bind(location), 100);
                     } else {
                         swal("Error", "Maaf terjadi kesalahan", "error");
                     }

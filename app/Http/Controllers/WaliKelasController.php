@@ -84,9 +84,7 @@ class WaliKelasController extends Controller
             return $query->where('kelas_id',$kelas_id);
         })->where('guru_id',$id)->first();
         $kelas = WaliKelas::with('kelas','tahun_ajaran')->where('tahun_ajaran_id',$tahun_ajaran_id)->where('guru_id',$id)->get();
-        $siswa = KelasSiswa::with(['siswa' => function($query){
-            $query->orderByRaw("CAST(nis as unsigned)");
-        }])->where('kelas_id',$walikelas->kelas_id)->paginate(10);
+        $siswa = KelasSiswa::where('kelas_id',$walikelas->kelas_id)->join('siswa','siswa.id','=','kelas_siswa.siswa_id')->orderBy('siswa.nis')->paginate(10);
         // dd($walikelas->toArray());
         return view('pages.walikelas.show',compact('walikelas','tahun_ajaran','siswa','kelas'));
     }

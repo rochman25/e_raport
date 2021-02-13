@@ -92,7 +92,7 @@ class UserController extends Controller
         $request->validate([
             'username' => 'unique:users,username,' . $id,
             'email'    => 'nullable|unique:users,email,' . $id,
-            'password' => 'confirmed|min:4'
+            'password' => 'nullable|confirmed|min:4'
         ]);
 
         $old_password = $request->old_password;
