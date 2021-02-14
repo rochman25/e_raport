@@ -128,14 +128,18 @@ class CetakController extends Controller
                 })->get();
             $total = 0;
             $jml = 0;
+            $ratarataP = 0;
             foreach ($nilai_p as $index2 => $item2) {
                 $total += $item2->nilai_angka;
                 $jml = ++$index2;
             }
+            if($jml > 0){
+                $ratarataP = ($total/$jml);
+            }
             $nilai_pengetahuan[] = [
                 'matpel_id' => $matpel_id,
                 'matpel_nama' => $item->guruMatpel->mata_pelajaran->nama_matpel,
-                'ratarata' => ($total / $jml)
+                'ratarata' => $ratarataP
             ];
 
             $nilai_k = DetailNilai::where('siswa_id', $id_siswa)
@@ -148,6 +152,7 @@ class CetakController extends Controller
                 })->get();
             $total2 = 0;
             $jml2 = 0;
+            $ratarataK = 0;
             foreach ($nilai_k as $index3 => $item3) {
                 // dd($item2);
                 $total2 += $item3->nilai_angka;
@@ -155,13 +160,16 @@ class CetakController extends Controller
                 // dd($jml2);
                 // $nilai_ketrampilan[] = $item3;
             }
+            if($jml > 0){
+                $ratarataK = ($total/$jml);
+            }
             // dd($total2/$jml2);
             // echo $jml2."<br>";
             if ($jml2 != 0) {
                 $nilai_ketrampilan[] = [
                     'matpel_id' => $matpel_id,
                     'matpel_nama' => $item->guruMatpel->mata_pelajaran->nama_matpel,
-                    'ratarata' => ($total2 / $jml2)
+                    'ratarata' => $ratarataK
                 ];
             } else {
                 $nilai_ketrampilan[] = [

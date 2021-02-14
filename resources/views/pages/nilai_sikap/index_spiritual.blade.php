@@ -98,17 +98,17 @@
                                             <td>{{ $item['siswa']['nama_lengkap'] }}</td>
                                             <td>
                                                 <input type="hidden" name="id_nilai_siswa[]"
-                                                    value="{{ !empty($nilai_siswa) ? $nilai_siswa[$index]['id'] : '' }}">
+                                                    value="{{ !empty($nilai_siswa[$index]['siswa_id']) ? $nilai_siswa[$index]['id'] : '' }}">
                                                 <input type="hidden" name="siswa_id[]" value="{{ $item['siswa']['id'] }}">
                                                 <select name="predikat[]" class="form-control">
-                                                    <option value="Baik" @if($nilai_siswa && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] &&$nilai_siswa[$index]['predikat'] == "Baik") selected @endif>Baik</option>
-                                                    <option value="Sangat Baik" @if($nilai_siswa && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] && $nilai_siswa[$index]['predikat'] == "Sangat Baik") selected @endif>Sangat Baik</option>
-                                                    <option value="Cukup" @if($nilai_siswa && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] && $nilai_siswa[$index]['predikat'] == "Cukup") selected @endif>Cukup</option>
-                                                    <option value="Kurang" @if($nilai_siswa && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] && $nilai_siswa[$index]['predikat'] == "Kurang") selected @endif>Kurang</option>
+                                                    <option value="Baik" @if(!empty($nilai_siswa[$index]['siswa_id']) && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] &&$nilai_siswa[$index]['predikat'] == "Baik") selected @endif>Baik</option>
+                                                    <option value="Sangat Baik" @if(!empty($nilai_siswa[$index]['siswa_id']) && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] && $nilai_siswa[$index]['predikat'] == "Sangat Baik") selected @endif>Sangat Baik</option>
+                                                    <option value="Cukup" @if(!empty($nilai_siswa[$index]['siswa_id']) && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] && $nilai_siswa[$index]['predikat'] == "Cukup") selected @endif>Cukup</option>
+                                                    <option value="Kurang" @if(!empty($nilai_siswa[$index]['siswa_id']) && $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] && $nilai_siswa[$index]['predikat'] == "Kurang") selected @endif>Kurang</option>
                                                 </select>
                                             </td>
                                             <td>
-                                                <textarea rows="5" name="deskripsi[]" class="form-control">{{ !empty($nilai_siswa) ? $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] ? $nilai_siswa[$index]['deskripsi'] : '' : '' }}</textarea>
+                                                <textarea rows="5" name="deskripsi[]" class="form-control">{{ !empty($nilai_siswa[$index]['siswa_id']) ? $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] ? $nilai_siswa[$index]['deskripsi'] : '' : '' }}</textarea>
                                             </td>
                                         @empty
                                         <tr>

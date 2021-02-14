@@ -99,15 +99,15 @@
                                             <td>{{ $item['siswa']['nama_lengkap'] }}</td>
                                             <td>
                                                 <input type="hidden" name="id_nilai_siswa[]"
-                                                    value="{{ !empty($nilai_siswa) ? $nilai_siswa[$index]['id'] : '' }}">
+                                                    value="{{ !empty($nilai_siswa[$index]['id']) ? $nilai_siswa[$index]['id'] : '' }}">
                                                 <input type="hidden" name="siswa_id[]" value="{{ $item['siswa']['id'] }}">
-                                                <input class="form-control" type="number" name="sakit[]" value="{{ !empty($nilai_siswa) ? $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] ? $nilai_siswa[$index]['sakit'] : '0' : '0' }}">
+                                                <input class="form-control" type="number" name="sakit[]" value="{{ !empty($nilai_siswa[$index]['id']) ? $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] ? $nilai_siswa[$index]['sakit'] : '0' : '0' }}">
                                             </td>
                                             <td>
-                                                <input class="form-control" type="number" name="izin[]" value="{{ !empty($nilai_siswa) ? $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] ? $nilai_siswa[$index]['izin'] : '0' : '0' }}">
+                                                <input class="form-control" type="number" name="izin[]" value="{{ !empty($nilai_siswa[$index]['id']) ? $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] ? $nilai_siswa[$index]['izin'] : '0' : '0' }}">
                                             </td>
                                             <td>
-                                                <input class="form-control" type="number" name="alpha[]" value="{{ !empty($nilai_siswa) ? $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] ? $nilai_siswa[$index]['alpha'] : '0' : '0' }}">
+                                                <input class="form-control" type="number" name="alpha[]" value="{{ !empty($nilai_siswa[$index]['id']) ? $nilai_siswa[$index]['siswa_id'] == $item['siswa']['id'] ? $nilai_siswa[$index]['alpha'] : '0' : '0' }}">
                                             </td>
                                         @empty
                                         <tr>

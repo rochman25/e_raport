@@ -3,17 +3,16 @@
 namespace App\Exports;
 
 use App\Models\DetailNilai;
-use App\Models\Ekstrakurikuler;
 use App\Models\Kelas;
 use App\Models\KompetensiDasar;
 use App\Models\NilaiSiswa;
 use App\Models\Pivot\GuruMatpel;
 use App\Models\Pivot\KelasSiswa;
-use App\Models\TahunAjaran;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 
-class NilaiSiswaExport implements FromView
+class NilaiSiswaExport implements FromView, WithColumnWidths
 {
     /**
     * @return \Illuminate\Support\View
@@ -25,6 +24,16 @@ class NilaiSiswaExport implements FromView
         $this->tipe_nilai = $tipe_nilai;
         $this->jenis_nilai = $jenis_nilai;
         $this->kd_id = $kd_id;
+    }
+
+    public function columnWidths(): array
+    {
+        return [
+            'A' => 30,
+            'B' => 20,
+            'C' => 10,
+            'D' => 20            
+        ];
     }
 
     public function view(): View
