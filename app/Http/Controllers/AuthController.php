@@ -71,8 +71,9 @@ class AuthController extends Controller
             $user = User::where('email',$request->email)->first();
             if($user){
                 // dd($user);
-
-                return view('pages.success_send_forget_link');
+                $token = Crypt::encryptString($user->id);
+                return view('pages.forget_password_mail',compact('token'));
+                // return view('pages.success_send_forget_link');
             }else{
                 return redirect()->back()->withErrors(['error'=>'Mohon maaaf email anda belum terdaftar di layanan kami.']);
             }
@@ -88,8 +89,9 @@ class AuthController extends Controller
     public function resetPasswordAction(Request $request){
         $request->validate([
             "token" => "required",
-            'password' => 'required|confirmed',
+            'password' => "required|confirmed",
         ]);
+        // dd($request);
         try{
             DB::beginTransaction();
             $token = $request->token;
@@ -97,8 +99,9 @@ class AuthController extends Controller
             if($user){
                 $user->password = $request->password;
                 $user->save();
-                dd($user);
+                // dd($user);
                 DB::commit();
+                return redirect()->route('auth.login')->with('success','Password anda sudah berhasil dirubah');
             }else{
                 return redirect()->back()->withErrors(['error' => "Mohon maaf data yang anda kirimkan tidak valid"]);
             }

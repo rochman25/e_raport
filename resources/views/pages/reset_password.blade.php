@@ -13,8 +13,9 @@
                 @enderror
                 <h4>Lupa Password.</h4>
                 <h6 class="font-weight-light">Silahkan masukkan password anda.</h6>
-                <form class="pt-3" action="{{ route('auth.forget.password.action') }}" method="POST">
+                <form class="pt-3" action="{{ route('auth.reset.password.action') }}" method="POST">
                     @csrf
+                    <input type="hidden" name="token" value="{{ request()->get('token') ?? "" }}">
                     <div class="form-group @error('password') has-danger @enderror">
                         <input type="password" name="password" class="form-control form-control-lg"
                             id="exampleInputPassword1" placeholder="Password">

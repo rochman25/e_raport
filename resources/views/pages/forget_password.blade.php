@@ -15,7 +15,6 @@
                 <h6 class="font-weight-light">Silahkan masukkan email anda.</h6>
                 <form class="pt-3" action="{{ route('auth.forget.password.action') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="token" value="{{ request()->get('token') ?? "" }}">
                     <div class="form-group @error('email') has-danger @enderror">
                         <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1"
                             placeholder="Email">

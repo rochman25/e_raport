@@ -11,6 +11,13 @@
                         <i class="mdi mdi-alert-circle"></i> {{ $message }}
                     </div>
                 @enderror
+
+                @if ($message = Session::get('success'))
+                    <div class="alert alert-success" role="alert">
+                        <i class="mdi mdi-alert-circle"></i> {{ $message }}
+                    </div>
+                @endif
+
                 <h4>Hello! Selamat Datang.</h4>
                 <h6 class="font-weight-light">Silahkan masuk untuk melanjutkan.</h6>
                 <form class="pt-3" action="{{ route('auth.login.action') }}" method="POST">
@@ -19,7 +26,8 @@
                         <input type="text" name="username" class="form-control form-control-lg" id="exampleInputEmail1"
                             placeholder="Username">
                         @error('username')
-                            <label id="firstname-error" class="error mt-2 text-danger" for="firstname">{{ $message }}</label>
+                            <label id="firstname-error" class="error mt-2 text-danger"
+                                for="firstname">{{ $message }}</label>
                         @enderror
                     </div>
                     <div class="form-group @error('password') has-danger @enderror">
