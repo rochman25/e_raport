@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ForgetPassword;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -72,8 +74,11 @@ class AuthController extends Controller
             if($user){
                 // dd($user);
                 $token = Crypt::encryptString($user->id);
-                return view('pages.forget_password_mail',compact('token'));
-                // return view('pages.success_send_forget_link');
+                Mail::to($request->email)->locale('id')->send(
+                    new ForgetPassword($token)
+                );
+                // return view('pages.forget_password_mail',compact('token'));
+                return view('pages.success_send_forget_link');
             }else{
                 return redirect()->back()->withErrors(['error'=>'Mohon maaaf email anda belum terdaftar di layanan kami.']);
             }

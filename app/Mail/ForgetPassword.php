@@ -16,9 +16,12 @@ class ForgetPassword extends Mailable
      *
      * @return void
      */
-    public function __construct()
+
+    protected $token;
+    public function __construct($token)
     {
         //
+        $this->token = $token;
     }
 
     /**
@@ -28,6 +31,7 @@ class ForgetPassword extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->from('37fbc789db-9cc239@inbox.mailtrap.io')->view('pages.forget_password_mail')
+                    ->with(['token' => $this->token]);
     }
 }
