@@ -61,7 +61,7 @@ class LegerExport implements FromView
 
                 foreach ($nilai_p as $index_p => $item_p) {
                     if ($item_p->siswa_id == $item->siswa->id) {
-                        if ($item_p->nilai->guru_matpel->mata_pelajaran->id == $item_m->guruMatpel->mata_pelajaran->id) {
+                        if (!empty($item_p->nilai->guru_matpel->mata_pelajaran->id) && $item_p->nilai->guru_matpel->mata_pelajaran->id == $item_m->guruMatpel->mata_pelajaran->id) {
                             $total_p += $item_p->nilai_angka;
                             $jml_p++;
                         }
@@ -70,7 +70,7 @@ class LegerExport implements FromView
 
                 foreach ($nilai_k as $index_k => $item_k) {
                     if ($item_k->siswa_id == $item->siswa->id) {
-                        if ($item_k->nilai->guru_matpel->mata_pelajaran->id == $item_m->guruMatpel->mata_pelajaran->id) {
+                        if (!empty($item_k->nilai->guru_matpel->mata_pelajaran->id) && $item_k->nilai->guru_matpel->mata_pelajaran->id == $item_m->guruMatpel->mata_pelajaran->id) {
                             $total_k += $item_k->nilai_angka;
                             $jml_k++;
                         }

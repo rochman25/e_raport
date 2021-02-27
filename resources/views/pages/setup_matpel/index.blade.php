@@ -57,20 +57,20 @@
                         @forelse ($matpel as $index => $item)
                             <tr>
                                 <td>{{ ++$index }}</td>
-                                <td>{{ $item->guru->nama }}</td>
-                                <td>{{ $item->mata_pelajaran->nama_matpel }}</td>
+                                <td>{{ $item->guru->nama ?? "" }}</td>
+                                <td>{{ $item->mata_pelajaran->nama_matpel ??  "" }}</td>
                                 <td>
                                     <ul>
                                         @foreach ($item->kelas as $item2)
-                                            <li>{{ $item2->kelas_->nama_kelas }}</li>
+                                            <li>{{ $item2->kelas_->nama_kelas ?? "" }}</li>
                                         @endforeach
                                     </ul>
                                 </td>
-                                <td>{{ $item->tahun_ajaran->tahun }}</td>
-                                <td class="text-info"> {{ $item->updated_at->isoFormat('dddd, D MMMM Y') }}</td>
+                                <td>{{ $item->tahun_ajaran->tahun ?? "" }}</td>
+                                <td class="text-info"> {{ $item->updated_at->isoFormat('dddd, D MMMM Y') ?? "" }}</td>
                                 <td>
                                     <a href="{{ route('view.setup_matpel.edit',$item->id) }}" class="btn btn-success btn-sm">ubah</a>
-                                    <button data-id="{{ $item->id }}" class="btn btn-danger btn-sm btnHapus">hapus</button>
+                                    <button data-id="{{ $item->id ?? "" }}" class="btn btn-danger btn-sm btnHapus">hapus</button>
                                 </td>
                             </tr>
                         @empty

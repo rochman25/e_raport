@@ -6,22 +6,15 @@
                 <div class="brand-logo">
                     <center><img src="../../assets/images/logo.png"></center>
                 </div>
-                @error('loginError')
+                @error('error')
                     <div class="alert alert-danger" role="alert">
                         <i class="mdi mdi-alert-circle"></i> {{ $message }}
                     </div>
                 @enderror
-                <h4>Hello! Selamat Datang.</h4>
-                <h6 class="font-weight-light">Silahkan masuk untuk melanjutkan.</h6>
-                <form class="pt-3" action="{{ route('auth.login.action') }}" method="POST">
+                <h4>Lupa Password.</h4>
+                <h6 class="font-weight-light">Silahkan masukkan password anda.</h6>
+                <form class="pt-3" action="{{ route('auth.forget.password.action') }}" method="POST">
                     @csrf
-                    <div class="form-group @error('username') has-danger @enderror">
-                        <input type="text" name="username" class="form-control form-control-lg" id="exampleInputEmail1"
-                            placeholder="Username">
-                        @error('username')
-                            <label id="firstname-error" class="error mt-2 text-danger" for="firstname">{{ $message }}</label>
-                        @enderror
-                    </div>
                     <div class="form-group @error('password') has-danger @enderror">
                         <input type="password" name="password" class="form-control form-control-lg"
                             id="exampleInputPassword1" placeholder="Password">
@@ -29,12 +22,16 @@
                             <label id="passworderror" class="error mt-2 text-danger" for="password">{{ $message }}</label>
                         @enderror
                     </div>
-                    <div class="mt-1">
-                        <a href="{{ route('auth.forget.password') }}">Lupa Password Anda ? </a>
+                    <div class="form-group @error('password') has-danger @enderror">
+                        <input type="password" name="password_confirmation" class="form-control form-control-lg"
+                            id="exampleInputPassword1" placeholder="Ketik Ulang Password">
+                        @error('password')
+                            <label id="passworderror" class="error mt-2 text-danger" for="password">{{ $message }}</label>
+                        @enderror
                     </div>
                     <div class="mt-3">
                         <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
-                            type="submit">Masuk</button>
+                            type="submit">Kirim</button>
                     </div>
                 </form>
             </div>

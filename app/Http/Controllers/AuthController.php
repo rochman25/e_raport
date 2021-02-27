@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -54,5 +57,58 @@ class AuthController extends Controller
         $request->session()->forget('role');
         return redirect()->route('auth.login');
     }
+
+    public function forgetPassword(Request $request){
+        return view('pages.forget_password');
+    }
+
+    public function forgetPasswordAction(Request $request){
+        $request->validate([
+            "email" => "required|email"
+        ]);
+        try{
+            // dd($request);
+            $user = User::where('email',$request->email)->first();
+            if($user){
+                // dd($user);
+
+                return view('pages.success_send_forget_link');
+            }else{
+                return redirect()->back()->withErrors(['error'=>'Mohon maaaf email anda belum terdaftar di layanan kami.']);
+            }
+        }catch(Exception $e){
+            dd($e);
+        }
+    }
+
+    public function resetPassword(Request $request){
+        return view('pages.reset_password');
+    }
+
+    public function resetPasswordAction(Request $request){
+        $request->validate([
+            "token" => "required",
+            'password' => 'required|confirmed',
+        ]);
+        try{
+            DB::beginTransaction();
+            $token = $request->token;
+            $user = User::find(Crypt::decryptString($token));
+            if($user){
+                $user->password = $request->password;
+                $user->save();
+                dd($user);
+                DB::commit();
+            }else{
+                return redirect()->back()->withErrors(['error' => "Mohon maaf data yang anda kirimkan tidak valid"]);
+            }
+            // dd($request);
+        }catch(Exception $e){
+            // dd($e);
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => "Mohon maaf terjadi kesalahan. Kode Error : ".$e->getCode()]);
+        }
+    }
+
 
 }

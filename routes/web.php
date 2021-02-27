@@ -38,6 +38,10 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/', [AuthController::class, 'viewLogin']);
     Route::get('/login', [AuthController::class, 'viewLogin'])->name('auth.login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.login.action');
+    Route::get('/lupa_password',[AuthController::class,'forgetPassword'])->name('auth.forget.password');
+    Route::post('/lupa_password',[AuthController::class,'forgetPasswordAction'])->name('auth.forget.password.action');
+    Route::get('/reset_password',[AuthController::class,'resetPassword'])->name('auth.reset.password');
+    Route::post('/reset_password',[AuthController::class,'resetPasswordAction'])->name('auth.reset.password.action');
 });
 
 Route::middleware(['auth'])->group(function () {
